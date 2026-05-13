@@ -236,7 +236,9 @@ section{padding:100px 0}
 /* ─── HERO ──────────────────────────────── */
 .hero{
   position:relative;min-height:100vh;
-  display:flex;flex-direction:column;
+  display:grid;
+  grid-template-columns:54% 46%;
+  grid-template-rows:1fr auto;
   overflow:hidden;padding-top:var(--nav-h);
 }
 .hero-bg{
@@ -250,16 +252,17 @@ section{padding:100px 0}
 .hero-overlay{
   position:absolute;inset:0;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,.12) 18%),
-    linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 30%, rgba(0,0,0,.15) 80%, transparent 100%);
+    linear-gradient(105deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.82) 44%, rgba(0,0,0,.18) 75%, transparent 100%),
+    linear-gradient(to top, #000 0%, rgba(0,0,0,.55) 28%, transparent 65%);
 }
 
-/* center body */
+/* left body — text content */
 .hero-body{
   position:relative;z-index:2;
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  padding:48px 28px 32px;
+  grid-column:1;grid-row:1;
+  display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:center;text-align:left;
+  padding:60px 52px 40px 60px;
 }
 .hero-tag{
   display:inline-flex;align-items:center;gap:8px;
@@ -288,7 +291,7 @@ section{padding:100px 0}
 }
 .hero-actions{
   display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px;
-  justify-content:center;
+  justify-content:flex-start;
   opacity:0;animation:fy .7s .52s both;
 }
 /* social proof */
@@ -312,6 +315,7 @@ section{padding:100px 0}
 /* ─── HERO AUTO-SCROLL CARDS ─────────── */
 .hero-cards{
   position:relative;z-index:2;
+  grid-column:1 / -1;grid-row:2;
   overflow:hidden;padding:28px 0 0;
 }
 .hero-cards::before,.hero-cards::after{
@@ -351,28 +355,33 @@ section{padding:100px 0}
 
 /* ─── HERO EXPERT PHOTO ─────────────── */
 .hero-expert{
-  position:absolute;right:0;bottom:0;
-  width:clamp(240px,36vw,520px);height:92%;
-  z-index:1;pointer-events:none;overflow:hidden;
+  grid-column:2;grid-row:1;
+  position:relative;
+  z-index:2;pointer-events:none;
+  overflow:hidden;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+/* subtle right-side glow */
+.hero-expert::before{
+  content:'';position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse 70% 60% at 55% 65%,rgba(0,162,149,.18) 0%,transparent 65%);
+  pointer-events:none;
 }
 .hero-expert::after{
-  /* bottom fade — blends feet area into dark section below */
+  /* bottom fade */
   content:'';position:absolute;inset:0;z-index:2;
-  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.12) 14%,transparent 32%);
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.08) 12%,transparent 30%);
 }
 .hero-expert img{
+  position:relative;z-index:1;
   width:100%;height:100%;
   object-fit:contain;object-position:bottom center;
   will-change:transform;
-  filter:drop-shadow(0 0 48px rgba(0,162,149,.28));
+  filter:drop-shadow(-12px 0 40px rgba(0,162,149,.22)) drop-shadow(0 -8px 24px rgba(0,162,149,.12));
+  max-height:100%;
 }
-/* teal glow around photo */
-.hero-expert-glow{
-  position:absolute;right:-80px;top:50%;transform:translateY(-50%);
-  width:500px;height:700px;
-  background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(0,162,149,.22) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+/* teal glow orb (removed from HTML) */
+.hero-expert-glow{display:none}
 
 /* ─── CROSSED MARQUEE (in Modalidades) ─ */
 .mod-marquee-x{
@@ -815,10 +824,22 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .prod-card{flex:0 0 calc((100% - 14px) / 2)}
 }
 @media(max-width:1100px){
-  .hero-expert{width:clamp(180px,28vw,360px)}
+  .hero{grid-template-columns:58% 42%}
+  .hero-body{padding:60px 36px 40px 40px}
 }
 @media(max-width:768px){
-  .hero-expert{display:none}
+  .hero{grid-template-columns:1fr;grid-template-rows:auto 320px auto}
+  .hero-body{
+    grid-column:1;grid-row:1;
+    align-items:center;text-align:center;
+    padding:40px 28px 24px;
+  }
+  .hero-expert{
+    grid-column:1;grid-row:2;
+    height:320px;
+  }
+  .hero-actions{justify-content:center}
+  .hero-cards{grid-column:1;grid-row:3}
   .nav-links,.nav-cta{display:none}
   .hb{display:flex}
   section{padding:76px 0}
@@ -884,14 +905,14 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   <div class="hero-body">
     <div class="hero-tag">
       <span class="hero-tag-dot"></span>
-      📍 João Pessoa, PB · Muçumagro
+      📍 Muçumagro · João Pessoa, PB
     </div>
 
     <h1 class="hero-h1">
-      Força que<br><em>transforma</em><br>vidas.
+      A sua melhor<br><em>hora do dia.</em>
     </h1>
 
-    <p class="hero-sub">Academia de alto padrão com equipamentos importados, profissionais certificados e mais de 10 modalidades.</p>
+    <p class="hero-sub">Academia de alto padrão com equipamentos importados, profissionais certificados e mais de 10 modalidades para você evoluir de verdade.</p>
 
     <div class="hero-actions">
       <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita."
@@ -927,9 +948,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     </div>
   </div>
 
-  <!-- expert photo (parallax via GSAP) -->
-  <!-- INSTRUÇÃO: salve a foto do professor em v3/assets/expert.jpg -->
-  <div class="hero-expert-glow"></div>
+  <!-- expert photo — grid column 2 -->
   <div class="hero-expert" id="heroExpert">
     <img src="./assets/expert-nobg.webp" alt="Professor 153 Fitness Club" loading="eager" width="800" height="1009">
   </div>
@@ -1240,7 +1259,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
 <!-- FOOTER -->
 <footer id="contato">
   <div class="footer-body">
-    <div><div class="footer-logo">153 <span class="a">FITNESS</span> CLUB</div><p class="footer-tl">O ambiente que você precisa para melhorar sua qualidade de vida.</p></div>
+    <div><div class="footer-logo">153 <span class="a">FITNESS</span> CLUB</div><p class="footer-tl">A sua melhor hora do dia — academia de alto padrão em Muçumagro, João Pessoa.</p></div>
     <div><div class="ft-hd">Links</div><ul class="ft-lk"><li><a href="#inicio">Início</a></li><li><a href="#sobre">Sobre Nós</a></li><li><a href="#modalidades">Modalidades</a></li><li><a href="#planos">Planos</a></li><li><a href="#contato">Contato</a></li></ul></div>
     <div>
       <div class="ft-hd">Contato</div>

@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 <style>
 /* ─── TOKENS ─────────────────────────────── */
 :root {
@@ -293,6 +295,86 @@ section{padding:100px 0}
 .hc-name{font-size:17px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.2}
 
 @keyframes fy{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ─── HERO EXPERT PHOTO ─────────────── */
+.hero-expert{
+  position:absolute;right:0;bottom:0;
+  width:clamp(240px,36vw,520px);height:92%;
+  z-index:1;pointer-events:none;overflow:hidden;
+}
+.hero-expert::before{
+  /* left fade to blend with dark hero */
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(90deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 28%,transparent 55%);
+}
+.hero-expert::after{
+  /* bottom fade */
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(0,0,0,1) 0%,rgba(0,0,0,.2) 18%,transparent 40%);
+}
+.hero-expert img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  will-change:transform;
+}
+/* teal glow around photo */
+.hero-expert-glow{
+  position:absolute;right:-80px;top:50%;transform:translateY(-50%);
+  width:500px;height:700px;
+  background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(0,162,149,.22) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ─── CROSSED MARQUEE (in Modalidades) ─ */
+.mod-marquee-x{
+  position:relative;
+  padding:48px 0;
+  overflow:hidden;
+  margin-bottom:72px;
+}
+/* each band is a rotated strip */
+.mq-band{
+  overflow:hidden;
+  padding:13px 0;
+  width:116%;margin-left:-8%;
+  position:relative;
+}
+.mq-b1{
+  background:var(--bg-2);
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  transform:rotate(-3deg);
+  margin-bottom:-22px; /* overlap crossing */
+  z-index:1;position:relative;
+}
+.mq-b2{
+  background:var(--teal);
+  transform:rotate(3deg);
+  z-index:2;position:relative;
+}
+.mq-track{
+  display:flex;width:max-content;
+  gap:0;
+}
+.mq-fwd{animation:mq 22s linear infinite}
+.mq-rev{animation:mqRev 18s linear infinite}
+.mq-track:hover{animation-play-state:paused}
+@keyframes mqRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.mq-item{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:0 24px;white-space:nowrap;
+  font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+}
+.mq-b1 .mq-item{color:rgba(245,245,247,.45)}
+.mq-b1 .mq-item .mq-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--teal);flex-shrink:0;
+}
+.mq-b2 .mq-item{color:rgba(0,0,0,.75)}
+.mq-b2 .mq-item .mq-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(0,0,0,.35);flex-shrink:0;
+}
 
 /* ─── STATS (floating card) ──────────── */
 .stats-wrap{
@@ -683,7 +765,11 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .mod-card{flex:0 0 calc((100% - 12px) / 2)}
   .prod-card{flex:0 0 calc((100% - 14px) / 2)}
 }
+@media(max-width:1100px){
+  .hero-expert{width:clamp(180px,28vw,360px)}
+}
 @media(max-width:768px){
+  .hero-expert{display:none}
   .nav-links,.nav-cta{display:none}
   .hb{display:flex}
   section{padding:76px 0}
@@ -782,6 +868,16 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     </div>
   </div>
 
+  <!-- expert photo (parallax via GSAP) -->
+  <!-- INSTRUÇÃO: salve a foto do professor em v3/assets/expert.jpg -->
+  <div class="hero-expert-glow"></div>
+  <div class="hero-expert" id="heroExpert">
+    <picture>
+      <source srcset="./assets/expert.webp" type="image/webp">
+      <img src="./assets/expert.jpg" alt="Professor 153 Fitness Club" loading="eager" width="520" height="900">
+    </picture>
+  </div>
+
   <!-- auto-scroll modality cards -->
   <div class="hero-cards">
     <div class="hero-cards-track">
@@ -832,15 +928,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         <span class="stat-l">De resultados</span>
       </div>
     </div>
-  </div>
-</div>
-
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="mi"><span class="mi-dot"></span>Musculação</span><span class="mi"><span class="mi-dot"></span>Funcional</span><span class="mi"><span class="mi-dot"></span>Spinning</span><span class="mi"><span class="mi-dot"></span>Muay Thai</span><span class="mi"><span class="mi-dot"></span>Boxe</span><span class="mi"><span class="mi-dot"></span>Box Dance 153</span><span class="mi"><span class="mi-dot"></span>Pilates</span><span class="mi"><span class="mi-dot"></span>Step</span><span class="mi"><span class="mi-dot"></span>Dança</span><span class="mi"><span class="mi-dot"></span>Funcional ao Ar Livre</span>
-    <span class="mi"><span class="mi-dot"></span>Musculação</span><span class="mi"><span class="mi-dot"></span>Funcional</span><span class="mi"><span class="mi-dot"></span>Spinning</span><span class="mi"><span class="mi-dot"></span>Muay Thai</span><span class="mi"><span class="mi-dot"></span>Boxe</span><span class="mi"><span class="mi-dot"></span>Box Dance 153</span><span class="mi"><span class="mi-dot"></span>Pilates</span><span class="mi"><span class="mi-dot"></span>Step</span><span class="mi"><span class="mi-dot"></span>Dança</span><span class="mi"><span class="mi-dot"></span>Funcional ao Ar Livre</span>
   </div>
 </div>
 
@@ -900,6 +987,25 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
 
 <!-- MODALIDADES CAROUSEL -->
 <section class="modalidades" id="modalidades">
+
+  <!-- Crossed ticker bands -->
+  <div class="mod-marquee-x" aria-hidden="true">
+    <!-- Band 1: dark, going left, modality names -->
+    <div class="mq-band mq-b1">
+      <div class="mq-track mq-fwd">
+        <span class="mq-item"><span class="mq-dot"></span>Musculação</span><span class="mq-item"><span class="mq-dot"></span>Funcional</span><span class="mq-item"><span class="mq-dot"></span>Spinning</span><span class="mq-item"><span class="mq-dot"></span>Muay Thai</span><span class="mq-item"><span class="mq-dot"></span>Boxe</span><span class="mq-item"><span class="mq-dot"></span>Box Dance 153</span><span class="mq-item"><span class="mq-dot"></span>Pilates</span><span class="mq-item"><span class="mq-dot"></span>Step</span><span class="mq-item"><span class="mq-dot"></span>Dança</span><span class="mq-item"><span class="mq-dot"></span>Funcional Outdoor</span>
+        <span class="mq-item"><span class="mq-dot"></span>Musculação</span><span class="mq-item"><span class="mq-dot"></span>Funcional</span><span class="mq-item"><span class="mq-dot"></span>Spinning</span><span class="mq-item"><span class="mq-dot"></span>Muay Thai</span><span class="mq-item"><span class="mq-dot"></span>Boxe</span><span class="mq-item"><span class="mq-dot"></span>Box Dance 153</span><span class="mq-item"><span class="mq-dot"></span>Pilates</span><span class="mq-item"><span class="mq-dot"></span>Step</span><span class="mq-item"><span class="mq-dot"></span>Dança</span><span class="mq-item"><span class="mq-dot"></span>Funcional Outdoor</span>
+      </div>
+    </div>
+    <!-- Band 2: teal, going right (reverse), benefit tags -->
+    <div class="mq-band mq-b2">
+      <div class="mq-track mq-rev">
+        <span class="mq-item"><span class="mq-dot"></span>Treino Total</span><span class="mq-item"><span class="mq-dot"></span>Alta Queima</span><span class="mq-item"><span class="mq-dot"></span>Cardio Intenso</span><span class="mq-item"><span class="mq-dot"></span>Arte Marcial</span><span class="mq-item"><span class="mq-dot"></span>Força &amp; Potência</span><span class="mq-item"><span class="mq-dot"></span>Box Dance Exclusivo</span><span class="mq-item"><span class="mq-dot"></span>Mobilidade</span><span class="mq-item"><span class="mq-dot"></span>Ritmo</span><span class="mq-item"><span class="mq-dot"></span>Diversão</span><span class="mq-item"><span class="mq-dot"></span>Ao Ar Livre</span>
+        <span class="mq-item"><span class="mq-dot"></span>Treino Total</span><span class="mq-item"><span class="mq-dot"></span>Alta Queima</span><span class="mq-item"><span class="mq-dot"></span>Cardio Intenso</span><span class="mq-item"><span class="mq-dot"></span>Arte Marcial</span><span class="mq-item"><span class="mq-dot"></span>Força &amp; Potência</span><span class="mq-item"><span class="mq-dot"></span>Box Dance Exclusivo</span><span class="mq-item"><span class="mq-dot"></span>Mobilidade</span><span class="mq-item"><span class="mq-dot"></span>Ritmo</span><span class="mq-item"><span class="mq-dot"></span>Diversão</span><span class="mq-item"><span class="mq-dot"></span>Ao Ar Livre</span>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="mod-hd sr">
       <div class="mod-hd-l"><span class="sec-label">O que você vai treinar</span><h2 class="sec-title">10 modalidades.<br>Uma academia.</h2></div>
@@ -1207,6 +1313,68 @@ initCarousel({
 });
 
 })();
+
+/* ── GSAP: hero expert parallax (runs after GSAP CDN loads) ── */
+window.addEventListener('load', function(){
+  if(typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const expertImg = document.querySelector('.hero-expert img');
+  const heroSection = document.querySelector('.hero');
+
+  if(expertImg && heroSection){
+    /* parallax: foto sobe mais devagar que o scroll → efeito de profundidade */
+    gsap.fromTo(expertImg,
+      { yPercent: 0 },
+      {
+        yPercent: -14,
+        ease: 'none',
+        scrollTrigger:{
+          trigger: heroSection,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      }
+    );
+
+    /* glow desaparece suavemente ao scrollar */
+    gsap.to('.hero-expert-glow', {
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger:{
+        trigger: heroSection,
+        start: '30% top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
+    /* foto fade on scroll */
+    gsap.to('.hero-expert', {
+      opacity: 0,
+      ease: 'power1.in',
+      scrollTrigger:{
+        trigger: heroSection,
+        start: '50% top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+  }
+
+  /* hero body text: sobe levemente no scroll (sutil) */
+  gsap.to('.hero-body', {
+    yPercent: -8,
+    ease: 'none',
+    scrollTrigger:{
+      trigger: heroSection,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+});
 </script>
 </body>
 </html>

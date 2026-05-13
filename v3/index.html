@@ -8,684 +8,636 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
-
 <style>
-/* ─── TOKENS ──────────────────────────────────── */
+/* ─── TOKENS ─────────────────────────────── */
 :root {
-  /* palette */
-  --teal:     #00A295;
-  --teal-hi:  #00BFB0;
-  --teal-dim: rgba(0,162,149,.12);
-  --teal-glow:rgba(0,162,149,.35);
+  --teal:      #00A295;
+  --teal-hi:   #00BFB0;
+  --teal-dim:  rgba(0,162,149,.12);
+  --teal-glow: rgba(0,162,149,.35);
 
-  /* apple dark surfaces */
-  --bg:       #000000;
-  --bg-1:     #0A0A0A;
-  --bg-2:     #141414;
-  --card:     #1C1C1E;
-  --card-2:   #242424;
-  --divider:  rgba(255,255,255,.08);
+  --bg:    #000;
+  --bg-1:  #0A0A0A;
+  --bg-2:  #141414;
+  --card:  #1C1C1E;
+  --card2: #242424;
+  --div:   rgba(255,255,255,.08);
 
-  /* typography */
-  --text:     #F5F5F7;
-  --text-2:   rgba(245,245,247,.6);
-  --text-3:   rgba(245,245,247,.35);
+  --t:     #F5F5F7;
+  --t2:    rgba(245,245,247,.68);
+  --t3:    rgba(245,245,247,.36);
 
-  /* sizing */
-  --nav-h:    64px;
-  --r-sm:     12px;
-  --r-md:     18px;
-  --r-lg:     24px;
+  --lt:    #F5F5F7;
+  --ltc:   #fff;
+  --ltd:   rgba(0,0,0,.08);
+  --ltt:   #0A0A0A;
+  --ltt2:  rgba(10,10,10,.55);
+
+  --nav-h: 64px;
+  --r:     18px;
+  --rl:    24px;
 }
 
-/* ─── RESET ───────────────────────────────────── */
+/* ─── RESET ─────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
-  background:var(--bg);color:var(--text);overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+  background:var(--bg);color:var(--t);overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
 }
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{cursor:pointer;border:none;background:none;font-family:inherit}
 
-/* grain */
 body::after{
-  content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
-  opacity:.025;
+  content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:160px;
 }
 
-/* ─── UTILS ───────────────────────────────────── */
-.container{max-width:1160px;margin:0 auto;padding:0 24px}
-
-/* scroll reveal */
-.sr{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+/* ─── UTILS ─────────────────────────────── */
+.container{max-width:1160px;margin:0 auto;padding:0 28px}
+.sr{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .sr.d1{transition-delay:.08s}.sr.d2{transition-delay:.16s}
 .sr.d3{transition-delay:.24s}.sr.d4{transition-delay:.32s}
 .sr.in{opacity:1;transform:none}
 
-/* labels */
-.eyebrow{
+.sec-label{
   display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:16px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:14px;
 }
-.eyebrow::before{content:'';width:20px;height:1.5px;background:var(--teal);flex-shrink:0}
+.sec-label::before{content:'';width:16px;height:1.5px;background:var(--teal);flex-shrink:0}
 
-/* ─── BUTTONS ─────────────────────────────────── */
+.sec-title{
+  font-size:clamp(26px,3.5vw,42px);font-weight:800;
+  letter-spacing:-.03em;line-height:1.1;color:var(--t);margin-bottom:14px;
+}
+.sec-sub{font-size:15px;font-weight:400;line-height:1.75;color:var(--t2);max-width:520px}
+.sec-head{text-align:center;margin-bottom:60px}
+.sec-head .sec-sub{margin:0 auto}
+
+section{padding:100px 0}
+
+/* ─── BUTTONS ────────────────────────────── */
 .btn{
   display:inline-flex;align-items:center;gap:8px;
   font-family:'DM Sans',sans-serif;font-weight:700;
   border-radius:100px;cursor:pointer;
-  transition:all .2s ease;letter-spacing:.01em;
+  transition:all .22s ease;letter-spacing:.01em;
 }
 .btn-md{font-size:14px;padding:13px 26px}
 .btn-lg{font-size:15px;padding:15px 32px}
 .btn-xl{font-size:16px;padding:17px 40px}
 
-.btn-lime{background:var(--teal);color:#fff}
-.btn-lime:hover{background:var(--teal-hi);box-shadow:0 0 28px var(--teal-glow);transform:translateY(-2px)}
-
-.btn-teal{background:var(--teal);color:#fff}
-.btn-teal:hover{background:#009d90;box-shadow:0 0 24px var(--teal-glow);transform:translateY(-1px)}
+.btn-p{background:var(--teal);color:#fff}
+.btn-p:hover{background:var(--teal-hi);box-shadow:0 0 32px var(--teal-glow);transform:translateY(-2px)}
 
 .btn-ghost{
-  background:transparent;color:var(--text);
-  border:1.5px solid var(--divider);border-radius:100px;
+  background:transparent;color:var(--t);
+  border:1.5px solid rgba(255,255,255,.2);border-radius:100px;
 }
-.btn-ghost:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
 
-.btn-dark{background:var(--card);color:var(--text);border:1.5px solid var(--divider)}
-.btn-dark:hover{border-color:rgba(255,255,255,.2)}
-
-/* arrow button (circle) */
-.btn-circle{
+.btn-c{
   width:44px;height:44px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
-  font-size:18px;cursor:pointer;transition:all .2s;
-  background:var(--card);border:1.5px solid var(--divider);
-  color:var(--text);
+  cursor:pointer;transition:all .22s;
+  background:var(--card);border:1.5px solid var(--div);color:var(--t);font-size:17px;
 }
-.btn-circle:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn-c:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn-c:disabled{opacity:.28;pointer-events:none}
 
-/* ─── NAV ─────────────────────────────────────── */
+/* light theme circle btn */
+.btn-cl{
+  width:44px;height:44px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+  cursor:pointer;transition:all .22s;
+  background:#fff;border:1.5px solid var(--ltd);color:var(--ltt);font-size:17px;
+}
+.btn-cl:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn-cl:disabled{opacity:.28;pointer-events:none}
+
+/* ─── NAV ──────────────────────────────── */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:1000;
-  height:var(--nav-h);padding:0 24px;
+  height:var(--nav-h);padding:0 28px;
   display:flex;align-items:center;justify-content:space-between;
   transition:background .4s,backdrop-filter .4s,border-color .4s;
   border-bottom:1px solid transparent;
 }
+/* always-on top shadow for readability on hero photo */
+.nav::before{
+  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.52) 0%,transparent 100%);
+}
 .nav.stuck{
-  background:rgba(0,0,0,.82);
+  background:rgba(10,10,10,.84);
   backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-color:var(--divider);
+  border-color:var(--div);
 }
+.nav.stuck::before{opacity:0}
+
 .nav-logo{
   font-size:17px;font-weight:800;letter-spacing:-.01em;
-  color:var(--text);display:flex;align-items:center;gap:3px;
+  color:var(--t);display:flex;align-items:center;gap:3px;
 }
 .nav-logo .accent{color:var(--teal)}
 
-.nav-center{display:flex;gap:2px}
-.nav-center a{
-  font-size:13.5px;font-weight:500;color:var(--text-2);
-  padding:7px 14px;border-radius:8px;
-  transition:color .2s,background .2s;
+.nav-links{display:flex;gap:2px}
+.nav-links a{
+  font-size:13.5px;font-weight:500;color:rgba(245,245,247,.8);
+  padding:7px 14px;border-radius:8px;transition:color .2s,background .2s;
 }
-.nav-center a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.nav-links a:hover{color:var(--t);background:rgba(255,255,255,.07)}
 
 .nav-cta{
   font-size:13px;font-weight:700;color:#fff;
   background:var(--teal);padding:9px 20px;border-radius:100px;
-  transition:background .2s,box-shadow .2s;
+  transition:all .22s;
 }
-.nav-cta:hover{background:#009d90;box-shadow:0 0 20px var(--teal-glow)}
+.nav-cta:hover{background:var(--teal-hi);box-shadow:0 0 22px var(--teal-glow);transform:translateY(-1px)}
 
-.hb{display:none;flex-direction:column;gap:4.5px;padding:8px;cursor:pointer}
-.hb span{display:block;width:20px;height:1.5px;background:var(--text);border-radius:2px;transition:.3s}
-.hb.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-.hb.open span:nth-child(2){opacity:0}
-.hb.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.hb{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer}
+.hb span{display:block;width:22px;height:1.5px;background:var(--t);border-radius:2px;transition:.3s}
+.hb.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hb.open span:nth-child(2){opacity:0;transform:translateX(-4px)}
+.hb.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
 .mob{
   display:none;position:fixed;top:var(--nav-h);left:0;right:0;z-index:999;
-  background:rgba(0,0,0,.95);backdrop-filter:blur(24px);
-  flex-direction:column;padding:12px 0 28px;
-  border-bottom:1px solid var(--divider);
+  background:rgba(0,0,0,.96);backdrop-filter:blur(28px);
+  flex-direction:column;padding:8px 0 32px;
+  border-bottom:1px solid var(--div);
 }
 .mob.open{display:flex}
-.mob a{padding:14px 24px;font-size:15px;font-weight:500;color:var(--text-2);border-bottom:1px solid var(--divider);transition:color .2s}
+.mob a{
+  padding:15px 28px;font-size:15px;font-weight:500;
+  color:var(--t2);border-bottom:1px solid var(--div);transition:color .2s;
+}
+.mob a:last-child{border:none}
 .mob a:hover{color:var(--teal)}
-.mob .nav-cta{margin:20px 24px 0;text-align:center;display:block;padding:14px;border-radius:14px}
+.mob .mob-cta{
+  margin:20px 24px 0;text-align:center;display:block;
+  padding:15px;border-radius:14px;
+  background:var(--teal);color:#fff;font-weight:700;border:none;
+}
 
-/* ─── HERO ────────────────────────────────────── */
+/* ─── HERO ──────────────────────────────── */
 .hero{
   position:relative;min-height:100vh;
   display:flex;flex-direction:column;justify-content:flex-end;
-  overflow:hidden;
-  padding-top:var(--nav-h);
+  overflow:hidden;padding-top:var(--nav-h);
 }
-
 .hero-bg{
   position:absolute;inset:0;
   background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=90');
   background-size:cover;background-position:center 30%;
-  animation:heroIn 1.2s ease both;
+  animation:heroZoom 1.4s ease both;
 }
-@keyframes heroIn{from{transform:scale(1.04)}to{transform:scale(1)}}
+@keyframes heroZoom{from{transform:scale(1.05)}to{transform:scale(1)}}
 
 .hero-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to top, #000 0%, rgba(0,0,0,.72) 45%, rgba(0,0,0,.3) 100%);
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.55) 0%, transparent 22%),
+    linear-gradient(to top,    #000 0%, rgba(0,0,0,.75) 38%, rgba(0,0,0,.18) 100%);
 }
-
 .hero-inner{
   position:relative;z-index:2;
-  padding:0 24px 0;
-  max-width:1160px;margin:0 auto;width:100%;
+  padding:0 28px;max-width:1160px;margin:0 auto;width:100%;
 }
-
 .hero-tag{
   display:inline-flex;align-items:center;gap:8px;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(12px);
-  border:1px solid var(--divider);border-radius:100px;
-  font-size:12px;font-weight:500;color:var(--text-2);
-  padding:7px 16px;margin-bottom:28px;
+  background:rgba(0,0,0,.42);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.14);border-radius:100px;
+  font-size:12px;font-weight:500;color:rgba(245,245,247,.82);
+  padding:8px 18px;margin-bottom:32px;
   opacity:0;animation:fy .6s .1s both;
 }
-.hero-tag span{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
 
 .hero-h1{
-  font-size:clamp(52px,8.5vw,108px);
-  font-weight:900;line-height:.94;letter-spacing:-.04em;
-  color:var(--text);margin-bottom:28px;
+  font-size:clamp(52px,9vw,116px);
+  font-weight:900;line-height:.9;letter-spacing:-.04em;
+  color:var(--t);margin-bottom:28px;
   opacity:0;animation:fy .7s .25s both;
 }
 .hero-h1 em{color:var(--teal);font-style:normal}
 
 .hero-sub{
   font-size:clamp(15px,1.5vw,18px);font-weight:400;
-  line-height:1.68;color:var(--text-2);
-  max-width:480px;margin-bottom:40px;
+  line-height:1.7;color:var(--t2);
+  max-width:460px;margin-bottom:40px;
   opacity:0;animation:fy .7s .4s both;
 }
-
 .hero-actions{
   display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;
   opacity:0;animation:fy .7s .52s both;
 }
-
 .hero-micro{
-  font-size:12px;font-weight:500;color:var(--text-3);letter-spacing:.02em;
-  opacity:0;animation:fy .7s .64s both;margin-bottom:48px;
+  font-size:12px;font-weight:500;color:var(--t3);
+  opacity:0;animation:fy .7s .64s both;margin-bottom:52px;
 }
-
-/* stats bar below hero */
 .hero-stats{
   position:relative;z-index:2;
   display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:1px solid var(--divider);
-  background:rgba(0,0,0,.6);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.68);backdrop-filter:blur(24px);
 }
-.hero-stat{
-  padding:28px 24px;position:relative;
-}
+.hero-stat{padding:28px 24px;position:relative}
 .hero-stat+.hero-stat::before{
   content:'';position:absolute;left:0;top:20%;height:60%;
-  width:1px;background:var(--divider);
+  width:1px;background:rgba(255,255,255,.1);
 }
 .hs-num{
-  font-size:clamp(32px,4vw,48px);font-weight:900;
-  letter-spacing:-.04em;color:var(--teal-hi);line-height:1;display:block;
-  margin-bottom:4px;text-shadow:0 0 32px rgba(0,191,176,.3);
+  font-size:clamp(30px,4vw,48px);font-weight:900;
+  letter-spacing:-.04em;color:var(--teal-hi);line-height:1;
+  display:block;margin-bottom:4px;
+  text-shadow:0 0 32px rgba(0,191,176,.28);
 }
-.hs-label{font-size:12.5px;font-weight:500;color:var(--text-2)}
-
+.hs-label{font-size:12.5px;font-weight:500;color:var(--t2)}
 @keyframes fy{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-/* ─── MARQUEE ─────────────────────────────────── */
+/* ─── MARQUEE ───────────────────────────── */
 .marquee-wrap{
-  overflow:hidden;padding:16px 0;
-  border-bottom:1px solid var(--divider);
-  background:var(--bg-1);
+  overflow:hidden;padding:14px 0;
+  border-bottom:1px solid var(--div);background:var(--bg-1);
 }
-.marquee-track{
-  display:flex;width:max-content;
-  animation:marquee 26s linear infinite;
-}
+.marquee-track{display:flex;width:max-content;animation:mq 26s linear infinite}
 .marquee-track:hover{animation-play-state:paused}
 .mi{
-  display:flex;align-items:center;gap:14px;
-  padding:0 32px;
+  display:flex;align-items:center;gap:14px;padding:0 32px;
   font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text-3);white-space:nowrap;
+  color:var(--t3);white-space:nowrap;
 }
 .mi-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);flex-shrink:0}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ─── SECTION BASE ────────────────────────────── */
-section{padding:96px 0}
-
-.sec-label{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:16px;
-}
-.sec-label::before{content:'';width:16px;height:1.5px;background:var(--teal);flex-shrink:0}
-
-.sec-title{
-  font-size:clamp(28px,3.8vw,44px);font-weight:800;
-  letter-spacing:-.03em;line-height:1.12;
-  color:var(--text);margin-bottom:14px;
-}
-.sec-sub{font-size:15px;font-weight:400;line-height:1.72;color:var(--text-2);max-width:500px}
-.sec-head{text-align:center;margin-bottom:60px}
-.sec-head .sec-sub{margin:0 auto}
-
-/* ─── SOBRE — BENTO GRID ──────────────────────── */
+/* ─── SOBRE BENTO ───────────────────────── */
 .sobre{background:var(--bg-1)}
+.bento{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:10px}
 
-.bento-sobre{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  grid-template-rows:auto auto;
-  gap:12px;
-}
-
-/* card base */
 .bc{
-  background:var(--card);border-radius:var(--r-lg);
-  border:1px solid var(--divider);
-  overflow:hidden;
-  transition:border-color .3s,box-shadow .3s,transform .3s;
+  background:var(--card);border-radius:var(--rl);
+  border:1px solid var(--div);overflow:hidden;
+  transition:border-color .3s,box-shadow .3s;
 }
-.bc:hover{border-color:rgba(0,162,149,.25);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.bc:hover{border-color:rgba(0,162,149,.22);box-shadow:0 8px 32px rgba(0,0,0,.28)}
 
-/* big photo card */
-.bc-photo{
-  grid-column:span 2;
-  position:relative;min-height:360px;
-}
-.bc-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.bc-photo-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(0,0,0,.8) 0%,transparent 60%);
-}
-.bc-photo-content{
-  position:absolute;bottom:28px;left:28px;
-}
-.bc-photo-content h3{
-  font-size:28px;font-weight:800;letter-spacing:-.03em;
-  color:var(--text);margin-bottom:8px;line-height:1.15;
-}
-.bc-photo-content p{font-size:14px;color:var(--text-2);max-width:280px;line-height:1.6}
+.bc-photo{grid-column:span 2;position:relative;min-height:360px}
+.bc-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s}
+.bc-photo:hover img{transform:scale(1.03)}
+.bc-photo-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.8) 0%,transparent 60%)}
+.bc-photo-ct{position:absolute;bottom:28px;left:28px}
+.bc-photo-ct h3{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--t);margin-bottom:8px;line-height:1.15}
+.bc-photo-ct p{font-size:13px;color:var(--t2);max-width:280px;line-height:1.6}
 
-/* stat card */
-.bc-stat{
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:28px;min-height:180px;
-}
-.bc-stat-num{
-  font-size:56px;font-weight:900;letter-spacing:-.04em;
+.bc-stat{display:flex;flex-direction:column;justify-content:space-between;padding:28px;min-height:180px}
+.bc-stat-n{
+  font-size:52px;font-weight:900;letter-spacing:-.04em;
   color:var(--teal-hi);line-height:1;
-  text-shadow:0 0 40px rgba(0,191,176,.25);
+  text-shadow:0 0 40px rgba(0,191,176,.22);
 }
-.bc-stat-label{font-size:13.5px;font-weight:500;color:var(--text-2)}
+.bc-stat-l{font-size:13px;font-weight:500;color:var(--t2)}
 
-/* text info card */
 .bc-info{padding:28px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between}
-.bc-info-icon{width:40px;height:40px;color:var(--teal);margin-bottom:16px}
-.bc-info h4{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
-.bc-info p{font-size:13.5px;color:var(--text-2);line-height:1.65}
+.bc-info-ico{width:34px;height:34px;color:var(--teal);margin-bottom:14px}
+.bc-info h4{font-size:15px;font-weight:700;color:var(--t);margin-bottom:5px;letter-spacing:-.01em}
+.bc-info p{font-size:13px;color:var(--t2);line-height:1.65}
 
-/* highlight card (teal) */
-.bc-lime{
+.bc-teal{
   background:var(--teal);border-color:transparent;
   padding:28px;display:flex;flex-direction:column;justify-content:space-between;
 }
-.bc-lime h4{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.25;margin-bottom:8px}
-.bc-lime p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6}
-.bc-lime .bc-arrow{
+.bc-teal h4{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.25;margin-bottom:8px}
+.bc-teal p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6}
+.bc-teal .bc-arr{
   width:40px;height:40px;background:rgba(255,255,255,.18);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  margin-top:20px;align-self:flex-end;
-  color:#fff;font-size:18px;flex-shrink:0;
+  margin-top:20px;align-self:flex-end;color:#fff;font-size:18px;flex-shrink:0;
   transition:background .2s;
 }
-.bc-lime:hover .bc-arrow{background:rgba(255,255,255,.3)}
+.bc-teal:hover .bc-arr{background:rgba(255,255,255,.3)}
 
-/* ─── DIFERENCIAIS ────────────────────────────── */
+/* ─── DIFERENCIAIS ──────────────────────── */
 .diferenciais{background:var(--bg)}
-
 .diff-bento{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  grid-template-rows:repeat(2,180px);
-  gap:12px;
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-rows:repeat(2,180px);gap:10px;
 }
-
 .df{
-  background:var(--card);border-radius:var(--r-md);
-  border:1px solid var(--divider);
-  padding:24px;
-  display:flex;flex-direction:column;justify-content:space-between;
+  background:var(--card);border-radius:var(--r);border:1px solid var(--div);
+  padding:22px;display:flex;flex-direction:column;justify-content:space-between;
   transition:border-color .3s,transform .3s,box-shadow .3s;
 }
 .df:hover{border-color:rgba(0,162,149,.3);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
-
-.df-icon{width:36px;height:36px;color:var(--teal);flex-shrink:0}
-.df-title{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em}
-.df-desc{font-size:12.5px;color:var(--text-2);line-height:1.6;margin-top:4px}
-
-/* wide card (spans 2) */
+.df-ico{width:33px;height:33px;color:var(--teal);flex-shrink:0}
+.df-title{font-size:14.5px;font-weight:700;color:var(--t);letter-spacing:-.01em}
+.df-desc{font-size:12.5px;color:var(--t2);line-height:1.6;margin-top:4px}
 .df-wide{grid-column:span 2}
-
-/* photo card */
-.df-photo{
-  grid-column:span 2;position:relative;overflow:hidden;
-  border-radius:var(--r-md);border:1px solid var(--divider);
-}
+.df-photo{grid-column:span 2;position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--div)}
 .df-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .df-photo:hover img{transform:scale(1.04)}
-.df-photo-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent 50%);
-}
-.df-photo-label{
-  position:absolute;bottom:20px;left:20px;right:20px;
-}
-.df-photo-label h4{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:4px}
-.df-photo-label p{font-size:12.5px;color:var(--text-2)}
+.df-photo-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 50%)}
+.df-photo-lb{position:absolute;bottom:20px;left:20px;right:20px}
+.df-photo-lb h4{font-size:19px;font-weight:800;color:var(--t);letter-spacing:-.02em;margin-bottom:4px}
+.df-photo-lb p{font-size:12.5px;color:var(--t2)}
+.df-teal{background:var(--teal);border-color:transparent}
+.df-teal:hover{border-color:transparent;transform:translateY(-4px)}
+.df-teal .df-ico{color:#fff}.df-teal .df-title{color:#fff}.df-teal .df-desc{color:rgba(255,255,255,.72)}
 
-/* teal accent card */
-.df-teal{
-  background:var(--teal);border-color:transparent;
-}
-.df-teal:hover{border-color:transparent}
-.df-teal .df-icon{color:#fff}
-.df-teal .df-title{color:#fff}
-.df-teal .df-desc{color:rgba(255,255,255,.7)}
+/* ─── MODALIDADES CAROUSEL ──────────────── */
+.modalidades{background:var(--bg-1);padding:100px 0}
+.mod-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.mod-hd-l .sec-title{margin-bottom:0}
+.mod-hd-r{display:flex;gap:8px;align-items:center}
 
-/* ─── MODALIDADES ─────────────────────────────── */
-.modalidades{background:var(--bg-1);padding:96px 0}
-
-.mod-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;
+.mod-scr{overflow:hidden}
+.mod-track{
+  display:flex;gap:12px;
+  transition:transform .55s cubic-bezier(.25,.46,.45,.94);
+  will-change:transform;
 }
 .mod-card{
-  position:relative;border-radius:var(--r-md);overflow:hidden;
-  aspect-ratio:3/4;cursor:pointer;
-  border:1px solid var(--divider);
+  flex:0 0 calc((100% - 24px) / 3);
+  flex-shrink:0;
+  position:relative;border-radius:var(--r);overflow:hidden;
+  aspect-ratio:2/3;cursor:pointer;
+  border:1px solid var(--div);
   transition:border-color .3s;
 }
 .mod-card:hover{border-color:rgba(0,162,149,.4)}
 .mod-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .mod-card:hover img{transform:scale(1.06)}
-.mod-card-overlay{
+.mod-card-ov{
   position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.1) 55%,transparent 100%);
-  display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
+  background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.08) 55%,transparent 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:22px;
   transition:background .3s;
 }
-.mod-card:hover .mod-card-overlay{
-  background:linear-gradient(to top,rgba(0,0,0,.98) 0%,rgba(0,162,149,.08) 100%);
-}
+.mod-card:hover .mod-card-ov{background:linear-gradient(to top,rgba(0,0,0,.98) 0%,rgba(0,162,149,.08) 100%)}
 .mod-tag{
   display:inline-block;font-size:9.5px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;
   background:var(--teal);color:#fff;
-  padding:3px 9px;border-radius:100px;margin-bottom:6px;align-self:flex-start;
+  padding:3px 9px;border-radius:100px;margin-bottom:8px;align-self:flex-start;
 }
-.mod-tag.ghost{background:rgba(255,255,255,.1);color:var(--text-2);backdrop-filter:blur(8px)}
-.mod-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.2}
+.mod-tag.g{background:rgba(255,255,255,.12);color:var(--t2);backdrop-filter:blur(8px)}
+.mod-name{font-size:18px;font-weight:800;color:var(--t);letter-spacing:-.02em;line-height:1.2}
 .mod-cta{
-  font-size:12px;font-weight:600;color:var(--teal);
+  font-size:12px;font-weight:600;color:var(--teal-hi);
   margin-top:6px;display:inline-flex;align-items:center;gap:4px;
   opacity:0;transform:translateY(5px);transition:opacity .3s,transform .3s;
 }
 .mod-card:hover .mod-cta{opacity:1;transform:none}
 
-/* ─── GALERIA ─────────────────────────────────── */
-.galeria{background:var(--bg);padding:96px 0}
+.mod-dots{display:flex;justify-content:center;gap:6px;margin-top:24px}
+.mod-dot{
+  height:4px;border-radius:2px;background:rgba(255,255,255,.15);
+  transition:width .3s,background .3s;width:20px;cursor:pointer;
+}
+.mod-dot.on{background:var(--teal);width:32px}
 
+/* ─── GALERIA ───────────────────────────── */
+.galeria{background:var(--bg);padding:100px 0}
 .gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  grid-template-rows:260px 260px;
-  gap:10px;margin-top:52px;
+  display:grid;grid-template-columns:repeat(12,1fr);
+  grid-template-rows:260px 260px;gap:10px;margin-top:52px;
 }
-.gc{
-  position:relative;border-radius:var(--r-md);overflow:hidden;
-  border:1px solid var(--divider);
-  transition:border-color .3s;
-}
+.gc{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--div);transition:border-color .3s}
 .gc:hover{border-color:rgba(255,255,255,.18)}
 .gc:nth-child(1){grid-column:span 7;grid-row:span 2}
-.gc:nth-child(2){grid-column:span 5}
-.gc:nth-child(3){grid-column:span 5}
-.gc:nth-child(4){grid-column:span 4}
-.gc:nth-child(5){grid-column:span 4}
-.gc:nth-child(6){grid-column:span 4}
-.gc img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gc:nth-child(2){grid-column:span 5}.gc:nth-child(3){grid-column:span 5}
+.gc:nth-child(4){grid-column:span 4}.gc:nth-child(5){grid-column:span 4}.gc:nth-child(6){grid-column:span 4}
+.gc img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .gc:hover img{transform:scale(1.04)}
 .gc-cap{
   position:absolute;bottom:0;left:0;right:0;
   padding:24px 16px 14px;
-  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
-  color:var(--text-2);font-size:12.5px;font-weight:500;
-  opacity:0;transform:translateY(5px);transition:opacity .3s,transform .3s;
+  background:linear-gradient(to top,rgba(0,0,0,.88),transparent);
+  color:var(--t2);font-size:12.5px;font-weight:500;
+  opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s;
 }
 .gc:hover .gc-cap{opacity:1;transform:none}
 
-/* ─── DEPOIMENTOS ─────────────────────────────── */
-.depoimentos{background:var(--bg-1);padding:96px 0}
-
+/* ─── DEPOIMENTOS ───────────────────────── */
+.depoimentos{background:var(--bg-1);padding:100px 0}
 .dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:52px}
-
 .dep-card{
-  background:var(--card);border:1px solid var(--divider);
-  border-radius:var(--r-md);padding:28px;
+  background:var(--card);border:1px solid var(--div);
+  border-radius:var(--r);padding:28px;
   transition:border-color .3s,transform .3s,box-shadow .3s;
 }
-.dep-card:hover{border-color:rgba(0,162,149,.3);transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.4)}
+.dep-card:hover{border-color:rgba(0,162,149,.28);transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.4)}
 .dep-stars{font-size:14px;letter-spacing:2px;color:#FBBC04;margin-bottom:16px}
-.dep-quote{font-size:15px;font-weight:400;line-height:1.72;color:var(--text);font-style:italic;margin-bottom:24px}
+.dep-quote{font-size:15px;font-weight:400;line-height:1.72;color:var(--t);font-style:italic;margin-bottom:24px}
 .dep-author{display:flex;align-items:center;gap:12px}
-.dep-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--card-2)}
-.dep-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.01em}
-.dep-info{font-size:12px;color:var(--text-2);margin-top:2px}
-
-.google-bar{
-  margin-top:40px;
-  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px;
-  padding:20px 28px;
-  background:var(--card);border:1px solid var(--divider);border-radius:var(--r-md);
+.dep-av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--card2)}
+.dep-name{font-size:14px;font-weight:700;color:var(--t);letter-spacing:-.01em}
+.dep-meta{font-size:12px;color:var(--t2);margin-top:2px}
+.gbar{
+  margin-top:40px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px;
+  padding:20px 28px;background:var(--card);border:1px solid var(--div);border-radius:var(--r);
 }
-.g-num{font-size:40px;font-weight:900;letter-spacing:-.04em;color:var(--text);line-height:1}
-.g-stars{color:#FBBC04;font-size:18px;line-height:1.3}
-.g-copy{font-size:13px;color:var(--text-2)}
-.g-link{font-size:13px;font-weight:600;color:var(--teal);display:flex;align-items:center;gap:4px;transition:color .2s}
-.g-link:hover{color:var(--teal-hi)}
+.g-n{font-size:40px;font-weight:900;letter-spacing:-.04em;color:var(--t);line-height:1}
+.g-s{color:#FBBC04;font-size:18px;line-height:1.3}
+.g-cp{font-size:13px;color:var(--t2)}
+.g-lk{font-size:13px;font-weight:600;color:var(--teal);display:flex;align-items:center;gap:4px;transition:color .2s}
+.g-lk:hover{color:var(--teal-hi)}
 
-/* ─── PLANOS ──────────────────────────────────── */
-.planos{background:var(--bg);padding:96px 0}
-
+/* ─── PLANOS ────────────────────────────── */
+.planos{background:var(--bg);padding:100px 0}
 .urgency{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:var(--teal-dim);border:1px solid rgba(0,162,149,.28);
   color:var(--teal-hi);font-size:13px;font-weight:700;letter-spacing:.02em;
-  padding:11px 24px;border-radius:100px;
-  max-width:440px;margin:0 auto 48px;
+  padding:11px 24px;border-radius:100px;max-width:440px;margin:0 auto 48px;
 }
-
 .plans-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:2px;
-  background:var(--divider);
-  border-radius:var(--r-lg);overflow:hidden;
-  border:1px solid var(--divider);
+  gap:2px;background:var(--div);border-radius:var(--rl);overflow:hidden;border:1px solid var(--div);
 }
-.plan-card{
-  background:var(--card);padding:36px 30px;
-  transition:background .25s;position:relative;
-}
-.plan-card:hover{background:var(--card-2)}
-
-.plan-card.featured{
+.plan-card{background:var(--card);padding:36px 30px;transition:background .25s;position:relative}
+.plan-card:hover{background:var(--card2)}
+.plan-card.feat{
   background:var(--bg-2);
-  box-shadow:inset 0 0 0 1.5px var(--teal),0 0 48px rgba(0,162,149,.1);
+  box-shadow:inset 0 0 0 1.5px var(--teal),0 0 48px rgba(0,162,149,.08);
 }
-.plan-card.featured::before{
+.plan-card.feat::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,var(--teal),var(--teal-hi),var(--teal));
 }
-
-.plan-badge{
-  display:inline-block;font-size:10px;font-weight:800;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:4px 12px;border-radius:100px;margin-bottom:20px;
-}
-.plan-badge.teal{background:var(--teal);color:#fff}
-.plan-badge.lime{background:var(--teal-dim);color:var(--teal-hi);border:1px solid rgba(0,162,149,.28)}
-.plan-badge.muted{background:rgba(255,255,255,.06);color:var(--text-3)}
-
-.plan-name{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2);margin-bottom:8px}
-.plan-struck{font-size:12px;color:var(--text-3);text-decoration:line-through;margin-bottom:4px}
+.plan-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:20px}
+.pb-teal{background:var(--teal);color:#fff}
+.pb-dim{background:var(--teal-dim);color:var(--teal-hi);border:1px solid rgba(0,162,149,.28)}
+.pb-muted{background:rgba(255,255,255,.06);color:var(--t3)}
+.plan-name{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);margin-bottom:8px}
+.plan-struck{font-size:12px;color:var(--t3);text-decoration:line-through;margin-bottom:4px}
 .plan-price{display:flex;align-items:baseline;gap:1px;margin-bottom:4px}
-.plan-cur{font-size:20px;font-weight:700;color:var(--text);margin-top:8px;letter-spacing:-.02em}
-.plan-amt{font-size:60px;font-weight:900;color:var(--text);line-height:1;letter-spacing:-.04em}
-.plan-cts{font-size:28px;font-weight:700;color:var(--text);align-self:flex-end;margin-bottom:6px;letter-spacing:-.02em}
-.plan-mo{font-size:13px;color:var(--text-2);margin-bottom:6px}
-.plan-info{font-size:12px;color:var(--text-3);margin-bottom:24px}
-.plan-sep{height:1px;background:var(--divider);margin:20px 0}
-.plan-perks{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.plan-perks li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--text-2)}
-.pchk{width:15px;height:15px;color:var(--teal);flex-shrink:0}
-
+.p-cur{font-size:20px;font-weight:700;color:var(--t);margin-top:8px;letter-spacing:-.02em}
+.p-amt{font-size:60px;font-weight:900;color:var(--t);line-height:1;letter-spacing:-.04em}
+.p-cts{font-size:28px;font-weight:700;color:var(--t);align-self:flex-end;margin-bottom:6px;letter-spacing:-.02em}
+.p-mo{font-size:13px;color:var(--t2);margin-bottom:6px}
+.p-info{font-size:12px;color:var(--t3);margin-bottom:24px}
+.p-sep{height:1px;background:var(--div);margin:20px 0}
+.p-perks{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.p-perks li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--t2)}
+.pck{width:15px;height:15px;color:var(--teal);flex-shrink:0}
 .plan-btn{
   display:block;width:100%;text-align:center;
-  padding:13px;border-radius:100px;
-  font-size:14px;font-weight:700;letter-spacing:.01em;
+  padding:13px;border-radius:100px;font-size:14px;font-weight:700;
   transition:all .2s;cursor:pointer;font-family:'DM Sans',sans-serif;
 }
-.plan-btn.teal{background:var(--teal);color:#fff}
-.plan-btn.teal:hover{background:#009d90;box-shadow:0 0 20px var(--teal-glow)}
-.plan-btn.ghost{color:var(--text-2);border:1.5px solid var(--divider)}
-.plan-btn.ghost:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+.pb-solid{background:var(--teal);color:#fff}
+.pb-solid:hover{background:var(--teal-hi);box-shadow:0 0 22px var(--teal-glow)}
+.pb-ghost{color:var(--t2);border:1.5px solid var(--div)}
+.pb-ghost:hover{border-color:rgba(255,255,255,.25);color:var(--t)}
+.p-trust{text-align:center;margin-top:24px;font-size:12.5px;color:var(--t3)}
 
-.plans-trust{text-align:center;margin-top:24px;font-size:12.5px;color:var(--text-3)}
+/* ─── PRODUTOS (Apple-style) ────────────── */
+.produtos{background:var(--lt);padding:100px 0}
 
-/* ─── EQUIPE ──────────────────────────────────── */
-.equipe{background:var(--bg-1);padding:96px 0}
+.produtos .sec-label{color:var(--teal)}
+.produtos .sec-label::before{background:var(--teal)}
+.produtos .sec-title{color:var(--ltt)}
+.produtos .sec-sub{color:var(--ltt2)}
 
-.team-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:52px;
+.prod-hd{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:40px;flex-wrap:wrap;gap:16px;
 }
+.prod-hd-l{flex:1}
+.prod-hd-r{display:flex;gap:8px;align-items:center}
+.prod-see-all{
+  font-size:14px;font-weight:600;color:var(--teal);
+  display:flex;align-items:center;gap:4px;transition:color .2s;white-space:nowrap;
+}
+.prod-see-all:hover{color:var(--ltt)}
+
+.prod-scr{overflow:hidden}
+.prod-track{
+  display:flex;gap:14px;
+  transition:transform .55s cubic-bezier(.25,.46,.45,.94);
+  will-change:transform;
+}
+.prod-card{
+  flex:0 0 calc((100% - 42px) / 4);
+  flex-shrink:0;background:var(--ltc);border-radius:var(--rl);
+  overflow:hidden;cursor:pointer;
+  border:1px solid var(--ltd);
+  transition:box-shadow .3s,transform .3s;
+}
+.prod-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.1);transform:translateY(-4px)}
+.prod-img{position:relative;aspect-ratio:1;overflow:hidden;background:#EAEAEA}
+.prod-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.prod-card:hover .prod-img img{transform:scale(1.07)}
+.prod-quick{
+  position:absolute;bottom:12px;left:12px;right:12px;
+  background:var(--teal);color:#fff;font-size:12.5px;font-weight:700;
+  padding:10px;border-radius:100px;text-align:center;
+  opacity:0;transform:translateY(8px);transition:opacity .28s,transform .28s;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+}
+.prod-card:hover .prod-quick{opacity:1;transform:none}
+.prod-body{padding:16px 18px 20px}
+.prod-cat{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:6px;display:block;
+}
+.prod-name{font-size:15px;font-weight:700;color:var(--ltt);margin-bottom:6px;letter-spacing:-.01em;line-height:1.3}
+.prod-price{font-size:17px;font-weight:800;color:var(--ltt);letter-spacing:-.02em}
+
+.prod-dots{display:flex;justify-content:center;gap:6px;margin-top:28px}
+.prod-dot{height:4px;border-radius:2px;background:rgba(0,0,0,.12);transition:width .3s,background .3s;width:20px;cursor:pointer}
+.prod-dot.on{background:var(--teal);width:32px}
+
+/* ─── EQUIPE ────────────────────────────── */
+.equipe{background:var(--bg-1);padding:100px 0}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:52px}
 .tc{
-  position:relative;border-radius:var(--r-md);overflow:hidden;
-  aspect-ratio:3/4;cursor:pointer;
-  border:1px solid var(--divider);
+  position:relative;border-radius:var(--r);overflow:hidden;
+  aspect-ratio:3/4;cursor:pointer;border:1px solid var(--div);
 }
 .tc img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s}
 .tc:hover img{transform:scale(1.04)}
-.tc-overlay{
+.tc-ov{
   position:absolute;inset:0;
   background:linear-gradient(to top,rgba(0,0,0,.92) 0%,transparent 50%);
   display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
 }
-.tc-name{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:2px}
-.tc-cref{font-size:11px;color:var(--text-3);margin-bottom:4px}
+.tc-name{font-size:16px;font-weight:800;color:var(--t);letter-spacing:-.02em;margin-bottom:2px}
+.tc-cref{font-size:11px;color:var(--t3);margin-bottom:4px}
 .tc-spec{font-size:12.5px;color:var(--teal);font-weight:600}
 
-/* ─── FAQ ─────────────────────────────────────── */
-.faq{background:var(--bg);padding:96px 0}
-
+/* ─── FAQ ───────────────────────────────── */
+.faq{background:var(--bg);padding:100px 0}
 .faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column}
-.fi{border-bottom:1px solid var(--divider)}
-.fi:first-child{border-top:1px solid var(--divider)}
+.fi{border-bottom:1px solid var(--div)}
+.fi:first-child{border-top:1px solid var(--div)}
 .fi-q{
   display:flex;justify-content:space-between;align-items:center;
   padding:20px 0;gap:16px;
-  font-size:15.5px;font-weight:600;color:var(--text);
-  cursor:pointer;user-select:none;letter-spacing:-.01em;
-  transition:color .2s;
+  font-size:15.5px;font-weight:600;color:var(--t);
+  cursor:pointer;user-select:none;letter-spacing:-.01em;transition:color .2s;
 }
 .fi-q:hover{color:var(--teal)}
-.fi-icon{width:20px;height:20px;color:var(--teal);flex-shrink:0;transition:transform .32s ease}
-.fi.open .fi-icon{transform:rotate(45deg)}
-.fi-a{overflow:hidden;max-height:0;transition:max-height .4s ease,padding .3s ease;padding:0}
+.fi-ico{width:20px;height:20px;color:var(--teal);flex-shrink:0;transition:transform .32s ease}
+.fi.open .fi-ico{transform:rotate(45deg)}
+.fi-a{overflow:hidden;max-height:0;transition:max-height .4s ease,padding .3s;padding:0}
 .fi.open .fi-a{max-height:200px;padding-bottom:20px}
-.fi-a p{font-size:14.5px;color:var(--text-2);line-height:1.75}
+.fi-a p{font-size:14.5px;color:var(--t2);line-height:1.75}
 
-/* ─── CTA FINAL ───────────────────────────────── */
-.cta-final{
-  background:var(--bg-1);padding:120px 24px;text-align:center;
-  position:relative;overflow:hidden;
-}
+/* ─── CTA FINAL ─────────────────────────── */
+.cta-final{background:var(--bg-1);padding:120px 28px;text-align:center;position:relative;overflow:hidden}
 .cta-orb{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:900px;height:500px;border-radius:50%;
   background:radial-gradient(ellipse,rgba(0,162,149,.22) 0%,rgba(0,162,149,.06) 45%,transparent 70%);
-  pointer-events:none;
-  animation:orbFloat 14s ease-in-out infinite;
+  pointer-events:none;animation:orbF 14s ease-in-out infinite;
 }
-@keyframes orbFloat{
-  0%,100%{transform:translate(-50%,-50%) scale(1)}
-  50%{transform:translate(-50%,-55%) scale(1.08)}
-}
+@keyframes orbF{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-55%) scale(1.08)}}
 .cta-inner{position:relative;z-index:2}
 .cta-h2{
-  font-size:clamp(48px,8vw,88px);font-weight:900;
-  letter-spacing:-.04em;line-height:.96;
-  color:var(--text);margin-bottom:20px;
+  font-size:clamp(44px,8vw,92px);font-weight:900;
+  letter-spacing:-.04em;line-height:.94;color:var(--t);margin-bottom:20px;
 }
 .cta-h2 em{color:var(--teal);font-style:normal}
-.cta-sub{font-size:17px;color:var(--text-2);line-height:1.7;max-width:520px;margin:0 auto 44px}
-.cta-micro{margin-top:16px;font-size:12px;color:var(--text-3)}
+.cta-sub{font-size:17px;color:var(--t2);line-height:1.7;max-width:520px;margin:0 auto 44px}
+.cta-micro{margin-top:16px;font-size:12px;color:var(--t3)}
 
-/* ─── FOOTER ──────────────────────────────────── */
-footer{background:var(--bg);border-top:1px solid var(--divider)}
+/* ─── FOOTER ────────────────────────────── */
+footer{background:var(--bg);border-top:1px solid var(--div)}
 .footer-body{
-  max-width:1160px;margin:0 auto;
-  padding:64px 24px 48px;
+  max-width:1160px;margin:0 auto;padding:64px 28px 48px;
   display:grid;grid-template-columns:1.6fr 1fr 1.3fr 1.3fr;gap:48px;
 }
-.footer-logo{font-size:16px;font-weight:800;letter-spacing:-.01em;color:var(--text);margin-bottom:10px}
-.footer-logo .accent{color:var(--teal)}
-.footer-tagline{font-size:13px;color:var(--text-2);line-height:1.7;max-width:200px}
-
-.ft-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
-.ft-links li+li{margin-top:10px}
-.ft-links a{font-size:13.5px;color:var(--text-2);transition:color .2s}
-.ft-links a:hover{color:var(--teal)}
-
-.ft-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:13px;color:var(--text-2);line-height:1.55}
+.footer-logo{font-size:16px;font-weight:800;letter-spacing:-.01em;color:var(--t);margin-bottom:10px}
+.footer-logo .a{color:var(--teal)}
+.footer-tl{font-size:13px;color:var(--t2);line-height:1.7;max-width:200px}
+.ft-hd{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:18px}
+.ft-lk li+li{margin-top:10px}
+.ft-lk a{font-size:13.5px;color:var(--t2);transition:color .2s}
+.ft-lk a:hover{color:var(--teal)}
+.ft-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:13px;color:var(--t2);line-height:1.55}
 .ft-row svg{width:15px;height:15px;color:var(--teal);flex-shrink:0;margin-top:2px}
-
-.hr-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--divider);font-size:12.5px}
-.hr-day{color:var(--text-3)}.hr-time{color:var(--text);font-weight:600}
-
-.footer-bottom{
-  max-width:1160px;margin:0 auto;padding:18px 24px;
-  border-top:1px solid var(--divider);
+.hr-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--div);font-size:12.5px}
+.hr-d{color:var(--t3)}.hr-t{color:var(--t);font-weight:600}
+.footer-bot{
+  max-width:1160px;margin:0 auto;padding:18px 28px;
+  border-top:1px solid var(--div);
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
-  font-size:12px;color:var(--text-3);
+  font-size:12px;color:var(--t3);
 }
-.footer-bottom a{color:var(--text-3);transition:color .2s}
-.footer-bottom a:hover{color:var(--teal)}
+.footer-bot a{color:var(--t3);transition:color .2s}.footer-bot a:hover{color:var(--teal)}
 
-/* ─── WHATSAPP ────────────────────────────────── */
+/* ─── WHATSAPP ──────────────────────────── */
 .wa{
   position:fixed;bottom:24px;right:24px;z-index:9998;
-  width:58px;height:58px;border-radius:50%;
-  background:#25D366;
+  width:58px;height:58px;border-radius:50%;background:#25D366;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 20px rgba(37,211,102,.4);
   transition:transform .2s,box-shadow .2s;
@@ -695,57 +647,59 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 .wa svg{width:28px;height:28px;fill:#fff}
 .wa-tip{
   position:absolute;right:66px;bottom:8px;
-  background:var(--card);color:var(--text);
-  font-size:12.5px;font-weight:600;
-  padding:8px 14px;border-radius:10px;border:1px solid var(--divider);
-  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;
+  background:var(--card);color:var(--t);
+  font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:10px;
+  border:1px solid var(--div);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;
 }
 .wa-tip::after{content:'';position:absolute;right:-7px;top:50%;transform:translateY(-50%);border:7px solid transparent;border-left-color:var(--card);border-right:none}
 .wa:hover .wa-tip{opacity:1}
-@keyframes waPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}
-  50%{box-shadow:0 0 0 10px rgba(37,211,102,0)}
-}
+@keyframes waPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}50%{box-shadow:0 0 0 10px rgba(37,211,102,0)}}
 
-/* ─── RESPONSIVE ──────────────────────────────── */
-@media(max-width:1024px){
-  .bento-sobre{grid-template-columns:1fr 1fr}
+/* ─── RESPONSIVE ────────────────────────── */
+@media(max-width:1100px){
+  .bento{grid-template-columns:1fr 1fr}
   .bc-photo{grid-column:span 2}
   .diff-bento{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .df-wide,.df-photo{grid-column:span 2}
   .team-grid{grid-template-columns:repeat(2,1fr)}
   .footer-body{grid-template-columns:1fr 1fr;gap:36px}
   .gallery-grid{grid-template-rows:200px 200px}
+  .mod-card{flex:0 0 calc((100% - 12px) / 2)}
+  .prod-card{flex:0 0 calc((100% - 28px) / 3)}
 }
 @media(max-width:860px){
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .hero-stat:nth-child(2)::before{display:none}
   .plans-grid{grid-template-columns:1fr;background:none;border:none;gap:10px}
-  .plan-card{border-radius:var(--r-md);border:1px solid var(--divider)}
-  .plan-card.featured{box-shadow:none;border-color:var(--teal)}
+  .plan-card{border-radius:var(--r);border:1px solid var(--div)}
+  .plan-card.feat{box-shadow:none;border-color:var(--teal)}
   .dep-grid{grid-template-columns:1fr}
   .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .gc{aspect-ratio:4/3;grid-column:auto !important;grid-row:auto !important}
   .gc:nth-child(1){grid-column:span 2 !important}
+  .mod-card{flex:0 0 calc((100% - 12px) / 2)}
+  .prod-card{flex:0 0 calc((100% - 14px) / 2)}
 }
 @media(max-width:768px){
-  .nav-center,.nav-cta{display:none}
+  .nav-links,.nav-cta{display:none}
   .hb{display:flex}
-  section{padding:72px 0}
-  .hero-h1{font-size:clamp(44px,13vw,72px)}
-  .bento-sobre{grid-template-columns:1fr}
-  .bc-photo{grid-column:span 1;min-height:280px}
-  .mod-grid{grid-template-columns:repeat(2,1fr)}
+  section{padding:76px 0}
+  .hero-h1{font-size:clamp(46px,14vw,74px)}
+  .bento{grid-template-columns:1fr}
+  .bc-photo{grid-column:auto;min-height:280px}
   .team-grid{grid-template-columns:repeat(2,1fr)}
   .footer-body{grid-template-columns:1fr;gap:32px}
-  .footer-bottom{justify-content:center;text-align:center}
+  .footer-bot{justify-content:center;text-align:center}
   .gallery-grid{grid-template-columns:1fr}
   .gc:nth-child(1){grid-column:auto !important}
   .dep-grid{grid-template-columns:1fr}
-  .google-bar{flex-direction:column;text-align:center}
+  .gbar{flex-direction:column;text-align:center}
+  .mod-card{flex:0 0 78%}
+  .mod-hd{flex-direction:column;align-items:flex-start}
+  .prod-card{flex:0 0 74%}
+  .prod-hd{flex-direction:column;align-items:flex-start}
 }
 @media(max-width:500px){
-  .mod-grid{grid-template-columns:1fr}
   .hero-actions{flex-direction:column;align-items:flex-start}
   .diff-bento{grid-template-columns:1fr}
   .df-wide,.df-photo{grid-column:auto}
@@ -754,18 +708,16 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </head>
 <body>
 
-<!-- ══════════════ NAV ══════════════ -->
+<!-- NAV -->
 <nav class="nav" id="nav">
   <a href="#inicio" class="nav-logo">153 <span class="accent">FITNESS</span> CLUB</a>
-
-  <div class="nav-center">
+  <div class="nav-links">
     <a href="#inicio">Início</a>
     <a href="#sobre">Sobre</a>
     <a href="#modalidades">Modalidades</a>
     <a href="#planos">Planos</a>
     <a href="#contato">Contato</a>
   </div>
-
   <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="nav-cta" target="_blank" rel="noopener">Agendar Aula Grátis</a>
   <button class="hb" id="hb" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -776,36 +728,33 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
   <a href="#modalidades">Modalidades</a>
   <a href="#planos">Planos</a>
   <a href="#contato">Contato</a>
-  <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="nav-cta" target="_blank" rel="noopener">Agendar Aula Grátis</a>
+  <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="mob-cta" target="_blank" rel="noopener">Agendar Aula Grátis</a>
 </div>
 
 
-<!-- ══════════════ HERO ══════════════ -->
+<!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
-
   <div class="hero-inner">
     <div class="hero-tag">
-      <span></span>
+      <span class="hero-tag-dot"></span>
       📍 João Pessoa, PB · Muçumagro
     </div>
     <h1 class="hero-h1">
-      FORÇA QUE<br>
-      <em>TRANSFORMA</em><br>
-      VIDAS.
+      Força que<br>
+      <em>transforma</em><br>
+      vidas.
     </h1>
     <p class="hero-sub">Academia de alto padrão com equipamentos importados, profissionais certificados e mais de 10 modalidades.</p>
     <div class="hero-actions">
-      <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="btn btn-lime btn-lg" target="_blank" rel="noopener">
+      <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="btn btn-p btn-lg" target="_blank" rel="noopener">
         Agendar aula grátis →
       </a>
       <a href="#planos" class="btn btn-ghost btn-lg">Ver planos</a>
     </div>
     <p class="hero-micro">Sem compromisso · Primeira aula 100% gratuita · Resposta em minutos</p>
   </div>
-
-  <!-- stats bar -->
   <div class="hero-stats">
     <div class="hero-stat sr">
       <span class="hs-num" data-target="800" data-suffix="+">0</span>
@@ -827,7 +776,7 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </section>
 
 
-<!-- ══════════════ MARQUEE ══════════════ -->
+<!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
     <span class="mi"><span class="mi-dot"></span>Musculação</span>
@@ -854,7 +803,7 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </div>
 
 
-<!-- ══════════════ SOBRE — BENTO ══════════════ -->
+<!-- SOBRE BENTO -->
 <section class="sobre" id="sobre">
   <div class="container">
     <div class="sec-head sr">
@@ -862,55 +811,47 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <h2 class="sec-title">O ambiente certo faz<br>toda a diferença</h2>
       <p class="sec-sub">Na 153 você tem tudo que precisa para treinar com qualidade, constância e resultado.</p>
     </div>
-
-    <div class="bento-sobre">
-      <!-- foto grande -->
+    <div class="bento">
       <div class="bc bc-photo sr">
         <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=85" alt="153 Fitness Club">
-        <div class="bc-photo-overlay"></div>
-        <div class="bc-photo-content">
-          <h3>Estrutura de alto padrão para quem leva o resultado a sério.</h3>
+        <div class="bc-photo-ov"></div>
+        <div class="bc-photo-ct">
+          <h3>Estrutura de alto padrão para quem leva resultado a sério.</h3>
           <p>Equipamentos importados, ambiente climatizado e estacionamento próprio.</p>
         </div>
       </div>
-
-      <!-- lime CTA -->
-      <div class="bc bc-lime sr d1">
+      <div class="bc bc-teal sr d1">
         <div>
           <h4>Primeira aula 100% gratuita, sem compromisso.</h4>
           <p>Venha conhecer pessoalmente. Agende pelo WhatsApp agora.</p>
         </div>
-        <a href="https://wa.me/5583991412858" class="bc-arrow" target="_blank" rel="noopener">↗</a>
+        <a href="https://wa.me/5583991412858" class="bc-arr" target="_blank" rel="noopener">↗</a>
       </div>
-
-      <!-- stat cards -->
       <div class="bc bc-stat sr">
-        <span class="bc-stat-num">800+</span>
-        <span class="bc-stat-label">Alunos ativos</span>
+        <span class="bc-stat-n">800+</span>
+        <span class="bc-stat-l">Alunos ativos</span>
       </div>
       <div class="bc bc-stat sr d1">
-        <span class="bc-stat-num">4.9★</span>
-        <span class="bc-stat-label">Google Reviews</span>
+        <span class="bc-stat-n">4.9★</span>
+        <span class="bc-stat-l">Google Reviews</span>
       </div>
-
-      <!-- info cards -->
       <div class="bc bc-info sr">
         <div>
-          <svg class="bc-info-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg>
+          <svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg>
           <h4>Equipamentos Importados</h4>
           <p>Aparatos de nova geração, sem fila. Treino no nível que você merece.</p>
         </div>
       </div>
       <div class="bc bc-info sr d1">
         <div>
-          <svg class="bc-info-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11"/></svg>
+          <svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11"/></svg>
           <h4>App do Aluno</h4>
           <p>Ficha de treino digital, evolução e check-in pelo celular.</p>
         </div>
       </div>
       <div class="bc bc-info sr d2">
         <div>
-          <svg class="bc-info-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="16" r="9"/><path d="M11 42c0-7.2 5.8-13 13-13s13 5.8 13 13"/></svg>
+          <svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="16" r="9"/><path d="M11 42c0-7.2 5.8-13 13-13s13 5.8 13 13"/></svg>
           <h4>Professores Certificados</h4>
           <p>Equipe com CREF e especializações. Orientação real, não protocolo.</p>
         </div>
@@ -920,53 +861,43 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </section>
 
 
-<!-- ══════════════ DIFERENCIAIS ══════════════ -->
+<!-- DIFERENCIAIS -->
 <section class="diferenciais">
   <div class="container">
     <div class="sec-head sr">
       <span class="sec-label">Estrutura</span>
       <h2 class="sec-title">Tudo que você precisa,<br>em um só lugar.</h2>
     </div>
-
     <div class="diff-bento">
-      <!-- foto -->
       <div class="df-photo sr">
         <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&q=80" alt="Treino Funcional">
-        <div class="df-photo-overlay"></div>
-        <div class="df-photo-label">
+        <div class="df-photo-ov"></div>
+        <div class="df-photo-lb">
           <h4>Espaço Funcional</h4>
           <p>Treinos de alta intensidade com profissionais ao seu lado</p>
         </div>
       </div>
-
-      <!-- teal destaque -->
       <div class="df df-teal sr d1">
-        <svg class="df-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="20" r="3.5"/><rect x="6" y="28" width="36" height="14" rx="3"/><path d="M13 28V20a11 11 0 0122 0v8"/></svg>
+        <svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="20" r="3.5"/><rect x="6" y="28" width="36" height="14" rx="3"/><path d="M13 28V20a11 11 0 0122 0v8"/></svg>
         <div>
           <div class="df-title">Estacionamento Próprio</div>
           <div class="df-desc">Espaço amplo para carros, motos e bicicletas. Sem custo adicional.</div>
         </div>
       </div>
-
-      <!-- cards simples -->
       <div class="df sr">
-        <svg class="df-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 8C16.3 8 10 14.3 10 22s6.3 14 14 14 14-6.3 14-14"/><path d="M34 8l4 4-4 4M38 12h-9"/></svg>
+        <svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 8C16.3 8 10 14.3 10 22s6.3 14 14 14 14-6.3 14-14"/><path d="M34 8l4 4-4 4M38 12h-9"/></svg>
         <div><div class="df-title">Ambiente Climatizado</div><div class="df-desc">Conforto total em qualquer horário.</div></div>
       </div>
-
       <div class="df sr d1">
-        <svg class="df-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6l4.5 13.5H42L31 28l4.5 13.5L24 33l-11.5 8.5L17 28 6 19.5h13.5z"/></svg>
+        <svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6l4.5 13.5H42L31 28l4.5 13.5L24 33l-11.5 8.5L17 28 6 19.5h13.5z"/></svg>
         <div><div class="df-title">Nutrição no Local</div><div class="df-desc">Escritório de nutrição dentro da academia.</div></div>
       </div>
-
-      <!-- wide card -->
       <div class="df df-wide sr">
-        <svg class="df-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg>
+        <svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg>
         <div><div class="df-title">Equipamentos de Nova Geração</div><div class="df-desc">Aparatos importados. Sem fila, sem desculpa. Treino no nível que você merece — todos os dias.</div></div>
       </div>
-
       <div class="df sr d2">
-        <svg class="df-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11M16 17h16"/></svg>
+        <svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11M16 17h16"/></svg>
         <div><div class="df-title">App do Aluno</div><div class="df-desc">Check-in e treino digital pelo celular.</div></div>
       </div>
     </div>
@@ -974,30 +905,39 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </section>
 
 
-<!-- ══════════════ MODALIDADES ══════════════ -->
+<!-- MODALIDADES CAROUSEL -->
 <section class="modalidades" id="modalidades">
   <div class="container">
-    <div class="sec-head sr">
-      <span class="sec-label">O que você vai treinar</span>
-      <h2 class="sec-title">10 modalidades.<br>Uma academia.</h2>
-      <p class="sec-sub">Musculação, cardio, lutas ou dança — você escolhe. Tudo incluso no plano.</p>
+    <div class="mod-hd sr">
+      <div class="mod-hd-l">
+        <span class="sec-label">O que você vai treinar</span>
+        <h2 class="sec-title">10 modalidades.<br>Uma academia.</h2>
+      </div>
+      <div class="mod-hd-r">
+        <button class="btn-c" id="modPrev" aria-label="Anterior">←</button>
+        <button class="btn-c" id="modNext" aria-label="Próximo">→</button>
+      </div>
     </div>
-    <div class="mod-grid">
-      <div class="mod-card sr"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Musculação" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Mais popular</span><span class="mod-name">Musculação</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d1"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Funcional" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Alta queima</span><span class="mod-name">Funcional</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d2"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Spinning" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Cardio intenso</span><span class="mod-name">Spinning</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr"><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600&q=80" alt="Muay Thai" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Luta</span><span class="mod-name">Muay Thai</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d1"><img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600&q=80" alt="Boxe" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Luta</span><span class="mod-name">Boxe</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d2"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=600&q=80" alt="Box Dance" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Exclusivo</span><span class="mod-name">Box Dance 153</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Pilates" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Mobilidade</span><span class="mod-name">Pilates</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d1"><img src="https://images.unsplash.com/photo-1509773896068-7fd415d91e2e?w=600&q=80" alt="Step" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Ritmo</span><span class="mod-name">Step</span><span class="mod-cta">Saiba mais →</span></div></div>
-      <div class="mod-card sr d2"><img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=600&q=80" alt="Dança" loading="lazy"><div class="mod-card-overlay"><span class="mod-tag">Diversão</span><span class="mod-name">Dança</span><span class="mod-cta">Saiba mais →</span></div></div>
+    <div class="mod-scr">
+      <div class="mod-track" id="modTrack">
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Musculação" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Mais popular</span><span class="mod-name">Musculação</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Funcional" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Alta queima</span><span class="mod-name">Funcional</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Spinning" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Cardio intenso</span><span class="mod-name">Spinning</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600&q=80" alt="Muay Thai" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Luta</span><span class="mod-name">Muay Thai</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600&q=80" alt="Boxe" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Luta</span><span class="mod-name">Boxe</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=600&q=80" alt="Box Dance 153" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Exclusivo 153</span><span class="mod-name">Box Dance 153</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Pilates" loading="lazy"><div class="mod-card-ov"><span class="mod-tag">Mobilidade</span><span class="mod-name">Pilates</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1509773896068-7fd415d91e2e?w=600&q=80" alt="Step" loading="lazy"><div class="mod-card-ov"><span class="mod-tag g">Ritmo</span><span class="mod-name">Step</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=600&q=80" alt="Dança" loading="lazy"><div class="mod-card-ov"><span class="mod-tag g">Diversão</span><span class="mod-name">Dança</span><span class="mod-cta">Saiba mais →</span></div></div>
+        <div class="mod-card"><img src="https://images.unsplash.com/photo-1551958219-acbc595d6b25?w=600&q=80" alt="Funcional ao Ar Livre" loading="lazy"><div class="mod-card-ov"><span class="mod-tag g">Ao ar livre</span><span class="mod-name">Funcional<br>ao Ar Livre</span><span class="mod-cta">Saiba mais →</span></div></div>
+      </div>
     </div>
+    <div class="mod-dots" id="modDots"></div>
   </div>
 </section>
 
 
-<!-- ══════════════ GALERIA ══════════════ -->
+<!-- GALERIA -->
 <section class="galeria">
   <div class="container">
     <div class="sec-head sr">
@@ -1010,13 +950,13 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <div class="gc sr d2"><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600&q=80" alt="Lutas" loading="lazy"><div class="gc-cap">Arena de lutas — Boxe, Muay Thai e Box Dance 153</div></div>
       <div class="gc sr"><img src="https://images.unsplash.com/photo-1622484211857-30e26a4c38da?w=500&q=80" alt="Loja" loading="lazy"><div class="gc-cap">Loja de suplementos</div></div>
       <div class="gc sr d1"><img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=500&q=80" alt="Estacionamento" loading="lazy"><div class="gc-cap">Estacionamento amplo</div></div>
-      <div class="gc sr d2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80" alt="Recepção" loading="lazy"><div class="gc-cap">Recepção — atendimento que te recebe bem</div></div>
+      <div class="gc sr d2"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80" alt="Recepção" loading="lazy"><div class="gc-cap">Recepção e atendimento</div></div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════ DEPOIMENTOS ══════════════ -->
+<!-- DEPOIMENTOS -->
 <section class="depoimentos">
   <div class="container">
     <div class="sec-head sr">
@@ -1027,29 +967,29 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <div class="dep-card sr">
         <div class="dep-stars">★★★★★</div>
         <p class="dep-quote">"Em 4 meses de 153 perdi 12kg e ganhei disposição que não tinha há anos. Os professores fazem toda a diferença."</p>
-        <div class="dep-author"><img class="dep-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b6f6b64a?w=200&q=80" alt="Ana Beatriz"><div><div class="dep-name">Ana Beatriz</div><div class="dep-info">34 anos · 4 meses treinando</div></div></div>
+        <div class="dep-author"><img class="dep-av" src="https://images.unsplash.com/photo-1494790108755-2616b6f6b64a?w=200&q=80" alt="Ana Beatriz"><div><div class="dep-name">Ana Beatriz</div><div class="dep-meta">34 anos · 4 meses treinando</div></div></div>
       </div>
       <div class="dep-card sr d1">
         <div class="dep-stars">★★★★★</div>
         <p class="dep-quote">"Melhor academia que já fui em João Pessoa. Equipamentos top, ambiente limpo e professores que realmente orientam."</p>
-        <div class="dep-author"><img class="dep-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Carlos Eduardo"><div><div class="dep-name">Carlos Eduardo</div><div class="dep-info">28 anos · 1 ano treinando</div></div></div>
+        <div class="dep-author"><img class="dep-av" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Carlos Eduardo"><div><div class="dep-name">Carlos Eduardo</div><div class="dep-meta">28 anos · 1 ano treinando</div></div></div>
       </div>
       <div class="dep-card sr d2">
         <div class="dep-stars">★★★★★</div>
         <p class="dep-quote">"Comecei com medo por nunca ter treinado. Hoje não consigo imaginar minha semana sem a 153. Recomendo demais!"</p>
-        <div class="dep-author"><img class="dep-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80" alt="Fernanda Lima"><div><div class="dep-name">Fernanda Lima</div><div class="dep-info">41 anos · 6 meses treinando</div></div></div>
+        <div class="dep-author"><img class="dep-av" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80" alt="Fernanda Lima"><div><div class="dep-name">Fernanda Lima</div><div class="dep-meta">41 anos · 6 meses treinando</div></div></div>
       </div>
     </div>
-    <div class="google-bar sr">
-      <div class="g-num">4.9</div>
-      <div><div class="g-stars">★★★★★</div><div class="g-copy">Baseado em 120 avaliações no Google</div></div>
-      <a href="https://maps.google.com" class="g-link" target="_blank" rel="noopener">Ver todas as avaliações →</a>
+    <div class="gbar sr">
+      <div class="g-n">4.9</div>
+      <div><div class="g-s">★★★★★</div><div class="g-cp">Baseado em 120 avaliações no Google</div></div>
+      <a href="https://maps.google.com" class="g-lk" target="_blank" rel="noopener">Ver todas as avaliações →</a>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════ PLANOS ══════════════ -->
+<!-- PLANOS -->
 <section class="planos" id="planos">
   <div class="container">
     <div class="sec-head sr">
@@ -1058,67 +998,115 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <p class="sec-sub">Todos os planos incluem acesso a todas as modalidades, app do aluno e orientação dos professores.</p>
     </div>
     <div class="urgency sr">⚡ Condição especial de matrícula — Válida esta semana</div>
-
     <div class="plans-grid">
       <div class="plan-card sr">
-        <span class="plan-badge lime">Melhor custo-benefício</span>
+        <span class="plan-badge pb-dim">Melhor custo-benefício</span>
         <div class="plan-name">Anual</div>
-        <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">134</span><span class="plan-cts">,90</span></div>
-        <div class="plan-mo">/mês</div>
-        <div class="plan-info">Total R$1.618,80 · Fidelização 12 meses</div>
-        <div class="plan-sep"></div>
-        <ul class="plan-perks">
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
+        <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">134</span><span class="p-cts">,90</span></div>
+        <div class="p-mo">/mês</div>
+        <div class="p-info">Total R$1.618,80 · Fidelização 12 meses</div>
+        <div class="p-sep"></div>
+        <ul class="p-perks">
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
         </ul>
-        <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn ghost" target="_blank" rel="noopener">Quero o plano anual →</a>
+        <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn pb-ghost" target="_blank" rel="noopener">Quero o plano anual →</a>
       </div>
-
-      <div class="plan-card featured sr d1">
-        <span class="plan-badge teal">⭐ Mais Escolhido</span>
+      <div class="plan-card feat sr d1">
+        <span class="plan-badge pb-teal">⭐ Mais Escolhido</span>
         <div class="plan-name">Semestral</div>
         <div class="plan-struck">De R$164,90/mês</div>
-        <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">149</span><span class="plan-cts">,90</span></div>
-        <div class="plan-mo">/mês</div>
-        <div class="plan-info">Total R$899,40 · Fidelização 6 meses</div>
-        <div class="plan-sep"></div>
-        <ul class="plan-perks">
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
+        <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">149</span><span class="p-cts">,90</span></div>
+        <div class="p-mo">/mês</div>
+        <div class="p-info">Total R$899,40 · Fidelização 6 meses</div>
+        <div class="p-sep"></div>
+        <ul class="p-perks">
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
         </ul>
-        <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn teal" target="_blank" rel="noopener">Matricular agora →</a>
-        <p style="text-align:center;font-size:11.5px;color:var(--text-3);margin-top:10px">Débito automático · Não compromete o limite</p>
+        <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn pb-solid" target="_blank" rel="noopener">Matricular agora →</a>
+        <p style="text-align:center;font-size:11.5px;color:var(--t3);margin-top:10px">Débito automático · Não compromete o limite</p>
       </div>
-
       <div class="plan-card sr d2">
-        <span class="plan-badge muted">Sem fidelidade</span>
+        <span class="plan-badge pb-muted">Sem fidelidade</span>
         <div class="plan-name">Mensal</div>
-        <div class="plan-price"><span class="plan-cur">R$</span><span class="plan-amt">164</span><span class="plan-cts">,90</span></div>
-        <div class="plan-mo">/mês</div>
-        <div class="plan-info">Cancele quando quiser · Sem multa</div>
-        <div class="plan-sep"></div>
-        <ul class="plan-perks">
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
-          <li><svg class="pchk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
+        <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">164</span><span class="p-cts">,90</span></div>
+        <div class="p-mo">/mês</div>
+        <div class="p-info">Cancele quando quiser · Sem multa</div>
+        <div class="p-sep"></div>
+        <ul class="p-perks">
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li>
+          <li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li>
         </ul>
-        <a href="https://wa.me/5583991412858?text=Quero%20começar%20pelo%20plano%20mensal." class="plan-btn ghost" target="_blank" rel="noopener">Começar pelo mensal →</a>
+        <a href="https://wa.me/5583991412858?text=Quero%20começar%20pelo%20plano%20mensal." class="plan-btn pb-ghost" target="_blank" rel="noopener">Começar pelo mensal →</a>
       </div>
     </div>
-    <p class="plans-trust sr">🔒 Matrícula segura · Sem taxa de adesão · Suporte via WhatsApp</p>
+    <p class="p-trust sr">🔒 Matrícula segura · Sem taxa de adesão · Suporte via WhatsApp</p>
   </div>
 </section>
 
 
-<!-- ══════════════ EQUIPE ══════════════ -->
+<!-- PRODUTOS -->
+<section class="produtos" id="produtos">
+  <div class="container">
+    <div class="prod-hd sr">
+      <div class="prod-hd-l">
+        <span class="sec-label">Loja 153</span>
+        <h2 class="sec-title">Veste a marca.<br>Treina com estilo.</h2>
+        <p class="sec-sub">Uniformes, acessórios e suplementos oficiais da 153 Fitness Club.</p>
+      </div>
+      <div class="prod-hd-r">
+        <button class="btn-cl" id="prodPrev" aria-label="Anterior">←</button>
+        <button class="btn-cl" id="prodNext" aria-label="Próximo">→</button>
+      </div>
+    </div>
+    <div class="prod-scr">
+      <div class="prod-track" id="prodTrack">
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&q=85" alt="Camiseta Essential 153" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Roupas</span><div class="prod-name">Camiseta Essential 153</div><div class="prod-price">R$ 89,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=600&q=85" alt="Regata Sport" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Roupas</span><div class="prod-name">Regata Sport Performance</div><div class="prod-price">R$ 79,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&q=85" alt="Conjunto Training" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Conjuntos</span><div class="prod-name">Conjunto Training 153</div><div class="prod-price">R$ 149,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=85" alt="Garrafa Inox 750ml" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Acessórios</span><div class="prod-name">Garrafa Inox 750ml</div><div class="prod-price">R$ 69,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=85" alt="Mochila Sport 153" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Acessórios</span><div class="prod-name">Mochila Sport 153</div><div class="prod-price">R$ 119,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&q=85" alt="Pulseira 153" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Acessórios</span><div class="prod-name">Pulseira Fitness 153</div><div class="prod-price">R$ 39,90</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img"><img src="https://images.unsplash.com/photo-1579722820853-e52e32b21db7?w=600&q=85" alt="Whey Protein 153" loading="lazy"><button class="prod-quick">Pedir pelo WhatsApp →</button></div>
+          <div class="prod-body"><span class="prod-cat">Suplementos</span><div class="prod-name">Whey Protein 153 900g</div><div class="prod-price">R$ 129,90</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="prod-dots" id="prodDots"></div>
+  </div>
+</section>
+
+
+<!-- EQUIPE -->
 <section class="equipe">
   <div class="container">
     <div class="sec-head sr">
@@ -1126,16 +1114,16 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <h2 class="sec-title">Profissionais que fazem<br>a diferença no seu treino.</h2>
     </div>
     <div class="team-grid">
-      <div class="tc sr"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80" alt="Ricardo Alves" loading="lazy"><div class="tc-overlay"><div class="tc-name">Ricardo Alves</div><div class="tc-cref">CREF 12345-G/PB</div><div class="tc-spec">Musculação e Hipertrofia</div></div></div>
-      <div class="tc sr d1"><img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80" alt="Juliana Costa" loading="lazy"><div class="tc-overlay"><div class="tc-name">Juliana Costa</div><div class="tc-cref">CREF 23456-G/PB</div><div class="tc-spec">Funcional e Pilates</div></div></div>
-      <div class="tc sr d2"><img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&q=80" alt="Marcos Ferreira" loading="lazy"><div class="tc-overlay"><div class="tc-name">Marcos Ferreira</div><div class="tc-cref">CREF 34567-G/PB</div><div class="tc-spec">Muay Thai e Boxe</div></div></div>
-      <div class="tc sr d3"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80" alt="André Santos" loading="lazy"><div class="tc-overlay"><div class="tc-name">André Santos</div><div class="tc-cref">CREF 45678-G/PB</div><div class="tc-spec">Spinning e Cardio</div></div></div>
+      <div class="tc sr"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80" alt="Ricardo Alves" loading="lazy"><div class="tc-ov"><div class="tc-name">Ricardo Alves</div><div class="tc-cref">CREF 12345-G/PB</div><div class="tc-spec">Musculação e Hipertrofia</div></div></div>
+      <div class="tc sr d1"><img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80" alt="Juliana Costa" loading="lazy"><div class="tc-ov"><div class="tc-name">Juliana Costa</div><div class="tc-cref">CREF 23456-G/PB</div><div class="tc-spec">Funcional e Pilates</div></div></div>
+      <div class="tc sr d2"><img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&q=80" alt="Marcos Ferreira" loading="lazy"><div class="tc-ov"><div class="tc-name">Marcos Ferreira</div><div class="tc-cref">CREF 34567-G/PB</div><div class="tc-spec">Muay Thai e Boxe</div></div></div>
+      <div class="tc sr d3"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=400&q=80" alt="André Santos" loading="lazy"><div class="tc-ov"><div class="tc-name">André Santos</div><div class="tc-cref">CREF 45678-G/PB</div><div class="tc-spec">Spinning e Cardio</div></div></div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════ FAQ ══════════════ -->
+<!-- FAQ -->
 <section class="faq">
   <div class="container">
     <div class="sec-head sr">
@@ -1143,25 +1131,25 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       <h2 class="sec-title">Ficou alguma dúvida?</h2>
     </div>
     <div class="faq-list">
-      <div class="fi"><div class="fi-q">Preciso ter experiência para começar?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Não! Nossos professores acolhem iniciantes e montam uma ficha de treino personalizada desde o primeiro dia.</p></div></div>
-      <div class="fi"><div class="fi-q">Posso cancelar o plano mensal quando quiser?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim. O plano mensal não tem fidelidade e pode ser cancelado a qualquer momento, sem multa.</p></div></div>
-      <div class="fi"><div class="fi-q">O plano semestral ou anual compromete o limite do cartão?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Não. O débito é feito mensalmente no cartão cadastrado e não bloqueia o limite total.</p></div></div>
-      <div class="fi"><div class="fi-q">Tem estacionamento?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim! Estacionamento próprio e amplo para carros, motos e bicicletas — sem custo adicional.</p></div></div>
-      <div class="fi"><div class="fi-q">Quais são os horários de funcionamento?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Segunda a Sexta: 05h às 23h · Sábado: 07h às 18h · Domingos e Feriados: 08h às 13h.</p></div></div>
-      <div class="fi"><div class="fi-q">Como funciona a aula experimental gratuita?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>É simples: entre em contato pelo WhatsApp, escolha um horário e venha treinar sem pagar nada. Zero compromisso.</p></div></div>
-      <div class="fi"><div class="fi-q">Tem loja de suplementos?<svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim! Temos loja própria dentro da academia com os principais suplementos do mercado.</p></div></div>
+      <div class="fi"><div class="fi-q">Preciso ter experiência para começar?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Não! Nossos professores acolhem iniciantes e montam uma ficha de treino personalizada desde o primeiro dia.</p></div></div>
+      <div class="fi"><div class="fi-q">Posso cancelar o plano mensal quando quiser?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim. O plano mensal não tem fidelidade e pode ser cancelado a qualquer momento, sem multa.</p></div></div>
+      <div class="fi"><div class="fi-q">O plano semestral ou anual compromete o limite do cartão?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Não. O débito é feito mensalmente no cartão cadastrado e não bloqueia o limite total.</p></div></div>
+      <div class="fi"><div class="fi-q">Tem estacionamento?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim! Estacionamento próprio e amplo para carros, motos e bicicletas — sem custo adicional.</p></div></div>
+      <div class="fi"><div class="fi-q">Quais são os horários de funcionamento?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Segunda a Sexta: 05h às 23h · Sábado: 07h às 18h · Domingos e Feriados: 08h às 13h.</p></div></div>
+      <div class="fi"><div class="fi-q">Como funciona a aula experimental gratuita?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>É simples: entre em contato pelo WhatsApp, escolha um horário e venha treinar sem pagar nada. Zero compromisso.</p></div></div>
+      <div class="fi"><div class="fi-q">Tem loja de suplementos?<svg class="fi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="fi-a"><p>Sim! Temos loja própria dentro da academia com os principais suplementos do mercado.</p></div></div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════ CTA FINAL ══════════════ -->
+<!-- CTA FINAL -->
 <section class="cta-final">
   <div class="cta-orb"></div>
   <div class="cta-inner">
-    <h2 class="cta-h2 sr">SUA TRANSFORMAÇÃO<br>COMEÇA <em>HOJE.</em></h2>
+    <h2 class="cta-h2 sr">Sua transformação<br>começa <em>hoje.</em></h2>
     <p class="cta-sub sr">Agende agora sua aula experimental gratuita e descubra por que mais de 800 pessoas escolheram a 153 Fitness Club.</p>
-    <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="btn btn-lime btn-xl sr" target="_blank" rel="noopener">
+    <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="btn btn-p btn-xl sr" target="_blank" rel="noopener">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L0 24l6.335-1.509C8.02 23.447 9.975 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.903 0-3.68-.52-5.19-1.425l-.367-.218-3.812.908.942-3.73-.239-.383A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
       Agendar aula grátis pelo WhatsApp
     </a>
@@ -1170,16 +1158,16 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
 </section>
 
 
-<!-- ══════════════ FOOTER ══════════════ -->
+<!-- FOOTER -->
 <footer id="contato">
   <div class="footer-body">
     <div>
-      <div class="footer-logo">153 <span class="accent">FITNESS</span> CLUB</div>
-      <p class="footer-tagline">O ambiente que você precisa para melhorar sua qualidade de vida.</p>
+      <div class="footer-logo">153 <span class="a">FITNESS</span> CLUB</div>
+      <p class="footer-tl">O ambiente que você precisa para melhorar sua qualidade de vida.</p>
     </div>
     <div>
-      <div class="ft-title">Links</div>
-      <ul class="ft-links">
+      <div class="ft-hd">Links</div>
+      <ul class="ft-lk">
         <li><a href="#inicio">Início</a></li>
         <li><a href="#sobre">Sobre Nós</a></li>
         <li><a href="#modalidades">Modalidades</a></li>
@@ -1188,81 +1176,175 @@ footer{background:var(--bg);border-top:1px solid var(--divider)}
       </ul>
     </div>
     <div>
-      <div class="ft-title">Contato</div>
+      <div class="ft-hd">Contato</div>
       <div class="ft-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.06 2.22 2 2 0 012 .06h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>(83) 99141-2858</div>
       <div class="ft-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@153ftn</div>
       <div class="ft-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>R. Escritor Ramalho Leite, 249<br>Muçumagro, João Pessoa – PB</span></div>
     </div>
     <div>
-      <div class="ft-title">Horários</div>
-      <div class="hr-row"><span class="hr-day">Seg – Sex</span><span class="hr-time">05h – 23h</span></div>
-      <div class="hr-row"><span class="hr-day">Sábado</span><span class="hr-time">07h – 18h</span></div>
-      <div class="hr-row"><span class="hr-day">Dom e Feriados</span><span class="hr-time">08h – 13h</span></div>
+      <div class="ft-hd">Horários</div>
+      <div class="hr-row"><span class="hr-d">Seg – Sex</span><span class="hr-t">05h – 23h</span></div>
+      <div class="hr-row"><span class="hr-d">Sábado</span><span class="hr-t">07h – 18h</span></div>
+      <div class="hr-row"><span class="hr-d">Dom e Feriados</span><span class="hr-t">08h – 13h</span></div>
     </div>
   </div>
-  <div class="footer-bottom">
+  <div class="footer-bot">
     <span>© 2025 153 Fitness Club Ltda · Todos os direitos reservados</span>
     <a href="#">Política de Privacidade</a>
   </div>
 </footer>
 
 
-<!-- ══════════════ WA FLOAT ══════════════ -->
+<!-- WA FLOAT -->
 <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="wa" target="_blank" rel="noopener" aria-label="WhatsApp">
   <span class="wa-tip">Fale com a 153 agora →</span>
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L0 24l6.335-1.509C8.02 23.447 9.975 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.903 0-3.68-.52-5.19-1.425l-.367-.218-3.812.908.942-3.73-.239-.383A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
 
 
-<!-- ══════════════ JS ══════════════ -->
 <script>
 (function(){
-  'use strict';
+'use strict';
 
-  // nav stuck
-  const nav=document.getElementById('nav');
-  window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>40),{passive:true});
+/* ── nav ── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>40),{passive:true});
 
-  // hamburger
-  const hb=document.getElementById('hb'),mob=document.getElementById('mob');
-  hb.addEventListener('click',()=>{const o=mob.classList.toggle('open');hb.classList.toggle('open',o)});
-  mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mob.classList.remove('open');hb.classList.remove('open')}));
+/* ── hamburger ── */
+const hb=document.getElementById('hb'),mob=document.getElementById('mob');
+hb.addEventListener('click',()=>{const o=mob.classList.toggle('open');hb.classList.toggle('open',o)});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mob.classList.remove('open');hb.classList.remove('open')}));
 
-  // smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',e=>{
-      const t=document.querySelector(a.getAttribute('href'));
-      if(!t)return;e.preventDefault();
-      window.scrollTo({top:t.getBoundingClientRect().top+scrollY-64,behavior:'smooth'});
+/* ── smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(!t)return;e.preventDefault();
+    window.scrollTo({top:t.getBoundingClientRect().top+scrollY-64,behavior:'smooth'});
+  });
+});
+
+/* ── scroll reveal ── */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),
+  {threshold:.1,rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+
+/* ── counter ── */
+function runCounter(el){
+  const target=+el.dataset.target,suf=el.dataset.suffix||'',dec=+(el.dataset.dec||0);
+  const dur=1800,t0=performance.now();
+  (function tick(now){
+    const p=Math.min((now-t0)/dur,1),ep=1-Math.pow(1-p,3),v=target*ep;
+    el.textContent=dec?(v/Math.pow(10,dec)).toFixed(dec)+suf:Math.floor(v)+suf;
+    if(p<1)requestAnimationFrame(tick);
+  })(t0);
+}
+const cObs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.querySelectorAll('[data-target]').forEach(runCounter);cObs.unobserve(e.target)}
+}),{threshold:.4});
+const heroStats=document.querySelector('.hero-stats');if(heroStats)cObs.observe(heroStats);
+
+/* ── FAQ ── */
+document.querySelectorAll('.fi-q').forEach(q=>q.addEventListener('click',()=>{
+  const fi=q.parentElement,open=fi.classList.contains('open');
+  document.querySelectorAll('.fi.open').forEach(i=>i.classList.remove('open'));
+  if(!open)fi.classList.add('open');
+}));
+
+/* ── Generic Carousel ── */
+function initCarousel({trackId,prevId,nextId,dotsId,perViewFn,dotClass,dotOnClass}){
+  const track=document.getElementById(trackId);
+  if(!track)return;
+  const cards=[...track.children];
+  const total=cards.length;
+  let cur=0;
+
+  function perView(){return perViewFn();}
+  function maxCur(){return Math.max(0,total-perView());}
+
+  function buildDots(){
+    const dotsEl=document.getElementById(dotsId);
+    if(!dotsEl)return;
+    dotsEl.innerHTML='';
+    const max=maxCur();
+    for(let i=0;i<=max;i++){
+      const d=document.createElement('span');
+      d.className=dotClass+(i===cur?' '+dotOnClass:'');
+      d.addEventListener('click',()=>go(i));
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function updateDots(){
+    const dotsEl=document.getElementById(dotsId);
+    if(!dotsEl)return;
+    dotsEl.querySelectorAll('.'+dotClass).forEach((d,i)=>{
+      d.classList.toggle(dotOnClass,i===cur);
     });
+  }
+
+  function updateArrows(){
+    const p=document.getElementById(prevId),n=document.getElementById(nextId);
+    if(p)p.disabled=cur===0;
+    if(n)n.disabled=cur>=maxCur();
+  }
+
+  function go(idx){
+    cur=Math.max(0,Math.min(idx,maxCur()));
+    const gap=parseInt(getComputedStyle(track).gap)||12;
+    const cardW=cards[0].getBoundingClientRect().width+gap;
+    track.style.transform=`translateX(-${cur*cardW}px)`;
+    updateDots();updateArrows();
+  }
+
+  const p=document.getElementById(prevId),n=document.getElementById(nextId);
+  if(p)p.addEventListener('click',()=>go(cur-1));
+  if(n)n.addEventListener('click',()=>go(cur+1));
+
+  /* touch/drag */
+  let tx=0,dragging=false;
+  track.addEventListener('mousedown',e=>{tx=e.clientX;dragging=true});
+  track.addEventListener('mousemove',e=>{if(!dragging)return;e.preventDefault()});
+  track.addEventListener('mouseup',e=>{
+    if(!dragging)return;dragging=false;
+    const diff=tx-e.clientX;
+    if(Math.abs(diff)>40)go(diff>0?cur+1:cur-1);
+  });
+  track.addEventListener('mouseleave',()=>{dragging=false});
+
+  let ts=0;
+  track.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});
+  track.addEventListener('touchend',e=>{
+    const diff=ts-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>40)go(diff>0?cur+1:cur-1);
   });
 
-  // scroll reveal
-  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),
-    {threshold:.12,rootMargin:'0px 0px -28px 0px'});
-  document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+  /* re-init on resize */
+  let rto;
+  window.addEventListener('resize',()=>{
+    clearTimeout(rto);rto=setTimeout(()=>{
+      if(cur>maxCur())cur=maxCur();
+      buildDots();go(cur);
+    },150);
+  });
 
-  // counter
-  function runCounter(el){
-    const target=+el.dataset.target,suf=el.dataset.suffix||'',dec=+(el.dataset.dec||0);
-    const dur=1800,t0=performance.now();
-    (function tick(now){
-      const p=Math.min((now-t0)/dur,1),ep=1-Math.pow(1-p,3),v=target*ep;
-      el.textContent=dec?(v/Math.pow(10,dec)).toFixed(dec)+suf:Math.floor(v)+suf;
-      if(p<1)requestAnimationFrame(tick);
-    })(t0);
-  }
-  const cObs=new IntersectionObserver(es=>es.forEach(e=>{
-    if(e.isIntersecting){e.target.querySelectorAll('[data-target]').forEach(runCounter);cObs.unobserve(e.target)}
-  }),{threshold:.5});
-  const heroEl=document.querySelector('.hero-stats');if(heroEl)cObs.observe(heroEl);
+  buildDots();go(0);
+}
 
-  // faq
-  document.querySelectorAll('.fi-q').forEach(q=>q.addEventListener('click',()=>{
-    const fi=q.parentElement,open=fi.classList.contains('open');
-    document.querySelectorAll('.fi.open').forEach(i=>i.classList.remove('open'));
-    if(!open)fi.classList.add('open');
-  }));
+/* modalities carousel — 3 per view desktop, 2 tablet, 1.x mobile */
+initCarousel({
+  trackId:'modTrack',prevId:'modPrev',nextId:'modNext',dotsId:'modDots',
+  perViewFn:()=>window.innerWidth<768?1:window.innerWidth<1100?2:3,
+  dotClass:'mod-dot',dotOnClass:'on'
+});
+
+/* products carousel — 4 desktop, 3 tablet, 1.x mobile */
+initCarousel({
+  trackId:'prodTrack',prevId:'prodPrev',nextId:'prodNext',dotsId:'prodDots',
+  perViewFn:()=>window.innerWidth<768?1:window.innerWidth<860?2:window.innerWidth<1100?3:4,
+  dotClass:'prod-dot',dotOnClass:'on'
+});
+
 })();
 </script>
 </body>

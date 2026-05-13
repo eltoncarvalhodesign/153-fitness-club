@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <style>
 /* ─── TOKENS ─────────────────────────────── */
 :root {
@@ -312,44 +313,32 @@ section{padding:100px 0}
 }
 .hero-proof-text strong{display:block;font-size:15px;font-weight:800;color:var(--t)}
 
-/* ─── HERO AUTO-SCROLL CARDS ─────────── */
+/* ─── HERO BOTTOM TICKER ─────────────── */
 .hero-cards{
   position:relative;z-index:2;
   grid-column:1 / -1;grid-row:2;
-  overflow:hidden;padding:28px 0 0;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
 }
-.hero-cards::before,.hero-cards::after{
-  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+.hero-ticker-track{
+  display:flex;width:max-content;
+  animation:mq 50s linear infinite;
+  padding:15px 0;
 }
-.hero-cards::before{left:0;background:linear-gradient(90deg,#000,transparent)}
-.hero-cards::after{right:0;background:linear-gradient(-90deg,#000,transparent)}
-
-.hero-cards-track{
-  display:flex;gap:14px;width:max-content;
-  animation:scrollCards 52s linear infinite;
+.hero-ticker-track:hover{animation-play-state:paused}
+.ht-item{
+  display:inline-flex;align-items:center;gap:18px;
+  padding:0 28px;white-space:nowrap;
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(245,245,247,.4);
 }
-.hero-cards-track:hover{animation-play-state:paused}
-@keyframes scrollCards{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-.hc{
-  flex-shrink:0;width:250px;height:340px;
-  border-radius:18px;overflow:hidden;cursor:pointer;
-  position:relative;border:1px solid rgba(255,255,255,.1);
-  transition:transform .35s ease,box-shadow .35s ease;
+.ht-item em{color:var(--teal-hi);font-style:normal}
+.ht-sep{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(0,162,149,.6);flex-shrink:0;
 }
-.hc:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 24px 48px rgba(0,0,0,.6)}
-.hc img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.hc:hover img{transform:scale(1.06)}
-.hc-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,transparent 55%);
-  display:flex;flex-direction:column;justify-content:flex-end;padding:18px;
-}
-.hc-tag{
-  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.65);margin-bottom:5px;
-}
-.hc-name{font-size:17px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.2}
 
 @keyframes fy{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
@@ -434,34 +423,47 @@ section{padding:100px 0}
   background:rgba(0,0,0,.35);flex-shrink:0;
 }
 
-/* ─── STATS (floating card) ──────────── */
+/* ─── STATS (dark modern cards) ─────── */
 .stats-wrap{
   background:var(--bg-1);padding:0 0 0;
 }
 .stats-card{
   max-width:1160px;margin:0 auto;
   padding:0 28px;
-  transform:translateY(-36px);
+  transform:translateY(-40px);
   position:relative;z-index:10;
 }
 .stats-inner{
   display:grid;grid-template-columns:repeat(4,1fr);
-  background:#fff;border-radius:20px;overflow:hidden;
-  border:1px solid rgba(0,0,0,.07);
-  box-shadow:0 20px 60px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.06);
+  gap:10px;background:transparent;
 }
 .stat-item{
-  padding:36px 32px;border-right:1px solid rgba(0,0,0,.06);
-  transition:background .25s;
+  padding:32px 28px;
+  background:var(--card);
+  border-radius:var(--r);
+  border:1px solid var(--div);
+  position:relative;overflow:hidden;
+  transition:background .25s,border-color .28s,transform .28s,box-shadow .28s;
 }
-.stat-item:last-child{border-right:none}
-.stat-item:hover{background:#f9f9f9}
+.stat-item::before{
+  content:'';position:absolute;bottom:-20px;left:0;right:0;height:80px;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(0,162,149,.12),transparent 70%);
+  pointer-events:none;
+}
+.stat-item:hover{
+  background:var(--card2);
+  border-color:rgba(0,162,149,.24);
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,.32);
+}
 .stat-n{
-  font-size:clamp(36px,4vw,52px);font-weight:900;
-  letter-spacing:-.04em;color:var(--teal);
-  display:block;line-height:1;margin-bottom:6px;
+  font-size:clamp(38px,4vw,56px);font-weight:900;
+  letter-spacing:-.04em;color:var(--teal-hi);
+  display:block;line-height:1;margin-bottom:10px;
+  text-shadow:0 0 40px rgba(0,191,176,.22);
+  position:relative;z-index:1;
 }
-.stat-l{font-size:13.5px;font-weight:500;color:rgba(10,10,10,.5)}
+.stat-l{font-size:13px;font-weight:500;color:var(--t2);position:relative;z-index:1}
 
 /* ─── MARQUEE ───────────────────────── */
 .marquee-wrap{
@@ -502,14 +504,16 @@ section{padding:100px 0}
 }
 .bc-stat-l{font-size:13px;font-weight:500;color:var(--t2)}
 .bc-info{padding:28px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between}
-.bc-info-ico{width:34px;height:34px;color:var(--teal);margin-bottom:14px}
-.bc-info h4{font-size:15px;font-weight:700;color:var(--t);margin-bottom:5px;letter-spacing:-.01em}
-.bc-info p{font-size:13px;color:var(--t2);line-height:1.65}
+.bc-info-ico{width:32px;height:32px;color:var(--teal);margin-bottom:14px;flex-shrink:0;stroke-width:2}
+.bc-info-ico svg{width:32px;height:32px;stroke-width:2}
+.df-ico svg{width:32px;height:32px;stroke-width:2}
+.bc-info h4{font-size:16px;font-weight:700;color:var(--t);margin-bottom:6px;letter-spacing:-.02em}
+.bc-info p{font-size:13px;color:var(--t2);line-height:1.68}
 .bc-teal{
   background:var(--teal);border-color:transparent;
   padding:28px;display:flex;flex-direction:column;justify-content:space-between;
 }
-.bc-teal h4{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.25;margin-bottom:8px}
+.bc-teal h4{font-size:clamp(20px,2vw,28px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px}
 .bc-teal p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6}
 .bc-teal .bc-arr{
   width:40px;height:40px;background:rgba(255,255,255,.18);border-radius:50%;
@@ -530,9 +534,9 @@ section{padding:100px 0}
   transition:border-color .3s,transform .3s,box-shadow .3s;
 }
 .df:hover{border-color:rgba(0,162,149,.3);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
-.df-ico{width:33px;height:33px;color:var(--teal);flex-shrink:0}
-.df-title{font-size:14.5px;font-weight:700;color:var(--t);letter-spacing:-.01em}
-.df-desc{font-size:12.5px;color:var(--t2);line-height:1.6;margin-top:4px}
+.df-ico{width:32px;height:32px;color:var(--teal);flex-shrink:0;stroke-width:2}
+.df-title{font-size:15px;font-weight:700;color:var(--t);letter-spacing:-.02em;line-height:1.3}
+.df-desc{font-size:12.5px;color:var(--t2);line-height:1.62;margin-top:5px}
 .df-wide{grid-column:span 2}
 .df-photo{grid-column:span 2;position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--div)}
 .df-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
@@ -808,9 +812,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .mod-card{flex:0 0 calc((100% - 12px) / 2)}
   .prod-card{flex:0 0 calc((100% - 28px) / 3)}
   .stats-inner{grid-template-columns:repeat(2,1fr)}
-  .stat-item:nth-child(2){border-right:none}
-  .stat-item:nth-child(3){border-top:1px solid rgba(0,0,0,.06)}
-  .stat-item:nth-child(4){border-top:1px solid rgba(0,0,0,.06)}
 }
 @media(max-width:860px){
   .plans-grid{grid-template-columns:1fr;background:none;border:none;gap:10px}
@@ -860,9 +861,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .prod-card{flex:0 0 72%}
   .prod-hd{flex-direction:column;align-items:flex-start}
   .stats-inner{grid-template-columns:1fr 1fr}
-  .stat-item{border-right:1px solid rgba(0,0,0,.06) !important;border-top:none !important}
-  .stat-item:nth-child(2n){border-right:none !important}
-  .stat-item:nth-child(3),.stat-item:nth-child(4){border-top:1px solid rgba(0,0,0,.06) !important}
   .hc{width:200px;height:280px}
 }
 @media(max-width:500px){
@@ -870,7 +868,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .diff-bento{grid-template-columns:1fr}
   .df-wide,.df-photo{grid-column:auto}
   .stats-inner{grid-template-columns:1fr 1fr}
-  .stat-item{padding:26px 20px}
+  .stat-item{padding:24px 18px}
 }
 </style>
 </head>
@@ -954,29 +952,28 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 
   <!-- auto-scroll modality cards -->
-  <div class="hero-cards">
-    <div class="hero-cards-track">
-      <div class="hc"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=500&fit=crop" alt="Musculação"><div class="hc-ov"><div class="hc-tag">Mais popular</div><div class="hc-name">Musculação</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop" alt="Funcional"><div class="hc-ov"><div class="hc-tag">Alta queima</div><div class="hc-name">Funcional</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=500&fit=crop" alt="Spinning"><div class="hc-ov"><div class="hc-tag">Cardio intenso</div><div class="hc-name">Spinning</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=400&h=500&fit=crop" alt="Muay Thai"><div class="hc-ov"><div class="hc-tag">Luta</div><div class="hc-name">Muay Thai</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400&h=500&fit=crop" alt="Boxe"><div class="hc-ov"><div class="hc-tag">Luta</div><div class="hc-name">Boxe</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=400&h=500&fit=crop" alt="Box Dance 153"><div class="hc-ov"><div class="hc-tag">Exclusivo</div><div class="hc-name">Box Dance 153</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=500&fit=crop" alt="Pilates"><div class="hc-ov"><div class="hc-tag">Mobilidade</div><div class="hc-name">Pilates</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1509773896068-7fd415d91e2e?w=400&h=500&fit=crop" alt="Step"><div class="hc-ov"><div class="hc-tag">Ritmo</div><div class="hc-name">Step</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=400&h=500&fit=crop" alt="Dança"><div class="hc-ov"><div class="hc-tag">Diversão</div><div class="hc-name">Dança</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1551958219-acbc595d6b25?w=400&h=500&fit=crop" alt="Funcional ao Ar Livre"><div class="hc-ov"><div class="hc-tag">Ao ar livre</div><div class="hc-name">Funcional Outdoor</div></div></div>
-      <!-- duplicates for seamless loop -->
-      <div class="hc"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=500&fit=crop" alt="Musculação"><div class="hc-ov"><div class="hc-tag">Mais popular</div><div class="hc-name">Musculação</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop" alt="Funcional"><div class="hc-ov"><div class="hc-tag">Alta queima</div><div class="hc-name">Funcional</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=500&fit=crop" alt="Spinning"><div class="hc-ov"><div class="hc-tag">Cardio intenso</div><div class="hc-name">Spinning</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=400&h=500&fit=crop" alt="Muay Thai"><div class="hc-ov"><div class="hc-tag">Luta</div><div class="hc-name">Muay Thai</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400&h=500&fit=crop" alt="Boxe"><div class="hc-ov"><div class="hc-tag">Luta</div><div class="hc-name">Boxe</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=400&h=500&fit=crop" alt="Box Dance 153"><div class="hc-ov"><div class="hc-tag">Exclusivo</div><div class="hc-name">Box Dance 153</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=500&fit=crop" alt="Pilates"><div class="hc-ov"><div class="hc-tag">Mobilidade</div><div class="hc-name">Pilates</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1509773896068-7fd415d91e2e?w=400&h=500&fit=crop" alt="Step"><div class="hc-ov"><div class="hc-tag">Ritmo</div><div class="hc-name">Step</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=400&h=500&fit=crop" alt="Dança"><div class="hc-ov"><div class="hc-tag">Diversão</div><div class="hc-name">Dança</div></div></div>
-      <div class="hc"><img src="https://images.unsplash.com/photo-1551958219-acbc595d6b25?w=400&h=500&fit=crop" alt="Funcional ao Ar Livre"><div class="hc-ov"><div class="hc-tag">Ao ar livre</div><div class="hc-name">Funcional Outdoor</div></div></div>
+  <div class="hero-cards" aria-hidden="true">
+    <div class="hero-ticker-track">
+      <div class="ht-item"><em>153 FITNESS CLUB</em><span class="ht-sep"></span></div>
+      <div class="ht-item">João Pessoa, PB<span class="ht-sep"></span></div>
+      <div class="ht-item">Muçumagro<span class="ht-sep"></span></div>
+      <div class="ht-item"><em>A sua melhor hora do dia</em><span class="ht-sep"></span></div>
+      <div class="ht-item">800+ alunos ativos<span class="ht-sep"></span></div>
+      <div class="ht-item">10 modalidades<span class="ht-sep"></span></div>
+      <div class="ht-item"><em>4.9★ Google Reviews</em><span class="ht-sep"></span></div>
+      <div class="ht-item">5 anos de resultado<span class="ht-sep"></span></div>
+      <div class="ht-item">Equipamentos importados<span class="ht-sep"></span></div>
+      <div class="ht-item">Professores certificados<span class="ht-sep"></span></div>
+      <div class="ht-item"><em>153 FITNESS CLUB</em><span class="ht-sep"></span></div>
+      <div class="ht-item">João Pessoa, PB<span class="ht-sep"></span></div>
+      <div class="ht-item">Muçumagro<span class="ht-sep"></span></div>
+      <div class="ht-item"><em>A sua melhor hora do dia</em><span class="ht-sep"></span></div>
+      <div class="ht-item">800+ alunos ativos<span class="ht-sep"></span></div>
+      <div class="ht-item">10 modalidades<span class="ht-sep"></span></div>
+      <div class="ht-item"><em>4.9★ Google Reviews</em><span class="ht-sep"></span></div>
+      <div class="ht-item">5 anos de resultado<span class="ht-sep"></span></div>
+      <div class="ht-item">Equipamentos importados<span class="ht-sep"></span></div>
+      <div class="ht-item">Professores certificados<span class="ht-sep"></span></div>
     </div>
   </div>
 </section>
@@ -1031,13 +1028,16 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
       <div class="bc bc-stat sr"><span class="bc-stat-n">800+</span><span class="bc-stat-l">Alunos ativos</span></div>
       <div class="bc bc-stat sr d1"><span class="bc-stat-n">4.9★</span><span class="bc-stat-l">Google Reviews</span></div>
       <div class="bc bc-info sr">
-        <div><svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg><h4>Equipamentos Importados</h4><p>Aparatos de nova geração, sem fila.</p></div>
+        <div><i data-lucide="dumbbell" class="bc-info-ico"></i><h4>Equipamentos Importados</h4><p>Aparatos de nova geração, sem fila.</p></div>
       </div>
       <div class="bc bc-info sr d1">
-        <div><svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11"/></svg><h4>App do Aluno</h4><p>Ficha digital, evolução e check-in pelo celular.</p></div>
+        <div><i data-lucide="smartphone" class="bc-info-ico"></i><h4>App do Aluno</h4><p>Ficha digital, evolução e check-in pelo celular.</p></div>
       </div>
       <div class="bc bc-info sr d2">
-        <div><svg class="bc-info-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="16" r="9"/><path d="M11 42c0-7.2 5.8-13 13-13s13 5.8 13 13"/></svg><h4>Professores Certificados</h4><p>CREF e especializações. Orientação real.</p></div>
+        <div><i data-lucide="award" class="bc-info-ico"></i><h4>Professores Certificados</h4><p>CREF e especializações. Orientação real.</p></div>
+      </div>
+      <div class="bc bc-info sr d3">
+        <div><i data-lucide="wind" class="bc-info-ico"></i><h4>Ambiente Climatizado</h4><p>Temperatura ideal para o máximo do seu desempenho.</p></div>
       </div>
     </div>
   </div>
@@ -1050,11 +1050,11 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     <div class="sec-head sr"><span class="sec-label">Estrutura</span><h2 class="sec-title">Tudo que você precisa,<br>em um só lugar.</h2></div>
     <div class="diff-bento">
       <div class="df-photo sr"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&q=80" alt="Treino Funcional"><div class="df-photo-ov"></div><div class="df-photo-lb"><h4>Espaço Funcional</h4><p>Treinos de alta intensidade com profissionais ao seu lado</p></div></div>
-      <div class="df df-teal sr d1"><svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="20" r="3.5"/><rect x="6" y="28" width="36" height="14" rx="3"/><path d="M13 28V20a11 11 0 0122 0v8"/></svg><div><div class="df-title">Estacionamento Próprio</div><div class="df-desc">Espaço amplo. Sem custo adicional.</div></div></div>
-      <div class="df sr"><svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 8C16.3 8 10 14.3 10 22s6.3 14 14 14 14-6.3 14-14"/><path d="M34 8l4 4-4 4M38 12h-9"/></svg><div><div class="df-title">Ambiente Climatizado</div><div class="df-desc">Conforto total em qualquer horário.</div></div></div>
-      <div class="df sr d1"><svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6l4.5 13.5H42L31 28l4.5 13.5L24 33l-11.5 8.5L17 28 6 19.5h13.5z"/></svg><div><div class="df-title">Nutrição no Local</div><div class="df-desc">Escritório de nutrição dentro da academia.</div></div></div>
-      <div class="df df-wide sr"><svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="18" width="36" height="18" rx="4"/><path d="M2 27h4M42 27h4M15 14v-4a9 9 0 0118 0v4"/><circle cx="17" cy="27" r="3.5"/><circle cx="31" cy="27" r="3.5"/></svg><div><div class="df-title">Equipamentos de Nova Geração</div><div class="df-desc">Aparatos importados. Sem fila, sem desculpa.</div></div></div>
-      <div class="df sr d2"><svg class="df-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="6" width="28" height="38" rx="5"/><path d="M18 6v5h12V6M16 23h16M16 30h11M16 17h16"/></svg><div><div class="df-title">App do Aluno</div><div class="df-desc">Check-in e treino digital pelo celular.</div></div></div>
+      <div class="df df-teal sr d1"><i data-lucide="car" class="df-ico"></i><div><div class="df-title">Estacionamento Próprio</div><div class="df-desc">Espaço amplo. Sem custo adicional.</div></div></div>
+      <div class="df sr"><i data-lucide="thermometer" class="df-ico"></i><div><div class="df-title">Ambiente Climatizado</div><div class="df-desc">Conforto total em qualquer horário.</div></div></div>
+      <div class="df sr d1"><i data-lucide="salad" class="df-ico"></i><div><div class="df-title">Nutrição no Local</div><div class="df-desc">Escritório de nutrição dentro da academia.</div></div></div>
+      <div class="df df-wide sr"><i data-lucide="dumbbell" class="df-ico"></i><div><div class="df-title">Equipamentos de Nova Geração</div><div class="df-desc">Aparatos importados. Sem fila, sem desculpa.</div></div></div>
+      <div class="df sr d2"><i data-lucide="smartphone" class="df-ico"></i><div><div class="df-title">App do Aluno</div><div class="df-desc">Check-in e treino digital pelo celular.</div></div></div>
     </div>
   </div>
 </section>
@@ -1334,6 +1334,19 @@ function initStarBtns(){
   });
 }
 initStarBtns();
+
+/* ── LUCIDE ICONS ── */
+function initLucide(){
+  if(typeof lucide !== 'undefined'){
+    lucide.createIcons({attrs:{strokeWidth:'2'}});
+  }
+}
+// lucide script is defer — run after DOM but also handle if already loaded
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initLucide);
+}else{
+  initLucide();
+}
 
 /* ── FAQ ── */
 document.querySelectorAll('.fi-q').forEach(q=>q.addEventListener('click',()=>{

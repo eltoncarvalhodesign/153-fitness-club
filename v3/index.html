@@ -121,57 +121,66 @@ section{padding:100px 0}
 .btn-cl:hover{background:var(--teal);border-color:var(--teal);color:#fff}
 .btn-cl:disabled{opacity:.28;pointer-events:none}
 
-/* ─── STAR BUTTON (hero primary CTA) ───── */
+/* ─── PRIMARY CTA BUTTON — shimmer glow ─ */
 .sbtn{
-  position:relative;z-index:3;overflow:hidden;
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;justify-content:center;
   white-space:nowrap;border-radius:100px;
   font-family:'DM Sans',sans-serif;font-weight:700;
   text-decoration:none;cursor:pointer;border:none;
   isolation:isolate;
-  background:var(--teal);color:#fff;
-  transition:box-shadow .28s,transform .22s;
+  /* gradient background */
+  background:linear-gradient(135deg, #00D4C4 0%, #00A295 45%, #007A6E 100%);
+  color:#fff;
+  transition:box-shadow .28s,transform .22s,filter .22s;
+}
+.sbtn::before{
+  /* outer glow ring */
+  content:'';
+  position:absolute;inset:-3px;border-radius:inherit;z-index:-1;
+  background:linear-gradient(135deg,#00D4C4,#00A295,#007A6E,#00D4C4);
+  background-size:300% 300%;
+  animation:sbtnGlow 4s linear infinite;
+  filter:blur(8px);
+  opacity:.6;
+}
+.sbtn::after{
+  /* traveling shine */
+  content:'';
+  position:absolute;
+  top:-20%;left:-60%;
+  width:35%;height:140%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.32),transparent);
+  transform:skewX(-20deg);
+  animation:sbtnShine 3.5s ease-in-out infinite;
+}
+@keyframes sbtnGlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes sbtnShine{
+  0%{left:-60%;opacity:0}
+  15%{opacity:1}
+  50%{left:120%;opacity:1}
+  51%,100%{left:120%;opacity:0}
 }
 .sbtn:hover{
-  box-shadow:0 0 44px var(--teal-glow),0 8px 24px rgba(0,162,149,.28);
-  transform:translateY(-2px);
+  filter:brightness(1.1);
+  transform:translateY(-3px);
+  box-shadow:0 0 40px rgba(0,162,149,.5),0 12px 32px rgba(0,0,0,.3);
 }
+.sbtn:active{transform:translateY(-1px)}
 .sbtn-lg{height:52px;padding:0 32px;font-size:15px}
 .sbtn-xl{height:60px;padding:0 44px;font-size:16px}
 
-/* traveling light along border path */
-.sbtn-light{
-  position:absolute;
-  width:var(--sb-lw,130px);
-  aspect-ratio:1;
-  background:radial-gradient(ellipse at center,
-    var(--sb-lc,rgba(255,255,255,.9)),
-    rgba(255,255,255,.12) 45%,
-    transparent 68%
-  );
-  animation:starBtnAnim calc(var(--sb-dur,3)*1s) linear infinite;
-  offset-path:var(--path,none);
-  offset-distance:0%;
-  pointer-events:none;z-index:1;
-}
-@keyframes starBtnAnim{
-  0%{offset-distance:0%}
-  100%{offset-distance:100%}
-}
-
-/* dot/star texture overlay */
-.sbtn-stars{
-  position:absolute;inset:0;z-index:2;
-  pointer-events:none;overflow:hidden;
-  border-radius:inherit;
-  border:1.5px solid rgba(255,255,255,.2);
-}
-.sbtn-stars svg{width:100%;height:100%;display:block}
-
-/* text on top */
+/* simplify internal structure */
+.sbtn-light{display:none}
+.sbtn-stars{display:none}
 .sbtn-txt{
-  position:relative;z-index:10;
-  color:#fff;display:flex;align-items:center;gap:9px;
+  position:relative;z-index:2;
+  color:#fff;display:inline-flex;align-items:center;gap:9px;
+  text-shadow:0 1px 3px rgba(0,0,0,.2);
 }
 
 /* ─── NAV ──────────────────────────────── */
@@ -181,13 +190,15 @@ section{padding:100px 0}
   display:flex;align-items:center;justify-content:space-between;
   transition:background .4s,backdrop-filter .4s,border-color .4s;
   border-bottom:1px solid transparent;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
 .nav::before{
   content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,transparent 100%);
 }
 .nav.stuck{
-  background:rgba(10,10,10,.86);
+  background:rgba(10,10,10,.88);
   backdrop-filter:saturate(180%) blur(22px);
   -webkit-backdrop-filter:saturate(180%) blur(22px);
   border-color:var(--div);
@@ -245,7 +256,7 @@ section{padding:100px 0}
 .hero-bg{
   position:absolute;inset:0;
   background-image:url('./assets/bg_image.webp');
-  background-size:cover;background-position:center 30%;
+  background-size:cover;background-position:center center;
   animation:heroZoom 1.4s ease both;
 }
 @keyframes heroZoom{from{transform:scale(1.05)}to{transform:scale(1)}}
@@ -357,17 +368,19 @@ section{padding:100px 0}
   pointer-events:none;
 }
 .hero-expert::after{
-  /* bottom fade */
+  /* bottom fade — also covers parallax edge gap */
   content:'';position:absolute;inset:0;z-index:2;
-  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.08) 12%,transparent 30%);
+  background:linear-gradient(to top,rgba(0,0,0,1) 0%,rgba(0,0,0,.5) 8%,transparent 28%);
 }
 .hero-expert img{
   position:relative;z-index:1;
-  width:100%;height:100%;
+  width:100%;
+  /* 20% extra height so parallax movement never exposes a gap */
+  height:120%;
+  margin-bottom:-20%;
   object-fit:contain;object-position:bottom center;
   will-change:transform;
   filter:drop-shadow(-12px 0 40px rgba(0,162,149,.22)) drop-shadow(0 -8px 24px rgba(0,162,149,.12));
-  max-height:100%;
 }
 /* teal glow orb (removed from HTML) */
 .hero-expert-glow{display:none}
@@ -645,18 +658,39 @@ section{padding:100px 0}
 }
 .plans-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:2px;background:var(--div);border-radius:var(--rl);overflow:hidden;border:1px solid var(--div);
+  gap:14px;align-items:start;
 }
-.plan-card{background:var(--card);padding:36px 30px;transition:background .25s;position:relative}
-.plan-card:hover{background:var(--card2)}
+.plan-card{
+  background:var(--card);padding:32px 28px;
+  border-radius:20px;border:1px solid var(--div);
+  transition:background .25s,border-color .28s,transform .28s,box-shadow .28s;
+  position:relative;
+}
+.plan-card:hover{background:var(--card2);transform:translateY(-3px)}
 .plan-card.feat{
   background:var(--bg-2);
-  box-shadow:inset 0 0 0 1.5px var(--teal),0 0 48px rgba(0,162,149,.08);
+  border-radius:24px;
+  border-color:var(--teal);
+  box-shadow:
+    0 0 0 1px var(--teal),
+    0 0 40px rgba(0,162,149,.22),
+    0 0 80px rgba(0,162,149,.1),
+    0 24px 48px rgba(0,0,0,.4);
+  transform:translateY(-8px);
+  padding:36px 30px;
 }
+.plan-card.feat:hover{transform:translateY(-12px)}
 .plan-card.feat::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--teal),var(--teal-hi),var(--teal));
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:24px 24px 0 0;
+  background:linear-gradient(90deg,transparent,var(--teal),var(--teal-hi),var(--teal),transparent);
 }
+/* animated glow pulse on featured card */
+.plan-card.feat::after{
+  content:'';position:absolute;inset:-1px;border-radius:25px;z-index:-1;
+  background:linear-gradient(135deg,var(--teal),var(--teal-hi),var(--teal));
+  opacity:.18;animation:featPulse 3s ease-in-out infinite;
+}
+@keyframes featPulse{0%,100%{opacity:.14}50%{opacity:.28}}
 .plan-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:20px}
 .pb-teal{background:var(--teal);color:#fff}
 .pb-dim{background:var(--teal-dim);color:var(--teal-hi);border:1px solid rgba(0,162,149,.28)}
@@ -814,9 +848,9 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .stats-inner{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:860px){
-  .plans-grid{grid-template-columns:1fr;background:none;border:none;gap:10px}
-  .plan-card{border-radius:var(--r);border:1px solid var(--div)}
-  .plan-card.feat{box-shadow:none;border-color:var(--teal)}
+  .plans-grid{grid-template-columns:1fr;gap:10px}
+  .plan-card.feat{transform:none;box-shadow:0 0 32px rgba(0,162,149,.22),0 0 64px rgba(0,162,149,.08)}
+  .plan-card.feat:hover{transform:translateY(-3px)}
   .dep-grid{grid-template-columns:1fr}
   .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .gc{aspect-ratio:4/3;grid-column:auto !important;grid-row:auto !important}
@@ -824,9 +858,15 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .mod-card{flex:0 0 calc((100% - 12px) / 2)}
   .prod-card{flex:0 0 calc((100% - 14px) / 2)}
 }
+@media(max-width:1280px){
+  .hero{grid-template-columns:56% 44%}
+  .hero-body{padding:48px 32px 32px 44px}
+  .hero-h1{font-size:clamp(48px,7.5vw,100px)}
+  .hero-sub{font-size:clamp(14px,1.3vw,17px)}
+}
 @media(max-width:1100px){
   .hero{grid-template-columns:58% 42%}
-  .hero-body{padding:60px 36px 40px 40px}
+  .hero-body{padding:44px 28px 28px 36px}
 }
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;grid-template-rows:auto 320px auto}
@@ -1144,24 +1184,24 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     <div class="sec-head sr"><span class="sec-label">Planos e Preços</span><h2 class="sec-title">Invista no seu corpo.<br>Escolha o plano ideal.</h2><p class="sec-sub">Todos os planos incluem acesso a todas as modalidades, app do aluno e orientação dos professores.</p></div>
     <div class="urgency sr">⚡ Condição especial de matrícula — Válida esta semana</div>
     <div class="plans-grid">
-      <div class="plan-card sr">
-        <span class="plan-badge pb-dim">Melhor custo-benefício</span>
+      <div class="plan-card feat sr">
+        <span class="plan-badge pb-teal">⭐ Melhor Custo-Benefício</span>
         <div class="plan-name">Anual</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">134</span><span class="p-cts">,90</span></div>
         <div class="p-mo">/mês</div><div class="p-info">Total R$1.618,80 · Fidelização 12 meses</div>
         <div class="p-sep"></div>
         <ul class="p-perks"><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li></ul>
-        <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn pb-ghost" target="_blank" rel="noopener">Quero o plano anual →</a>
+        <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn pb-solid" target="_blank" rel="noopener">Quero o plano anual →</a>
+        <p style="text-align:center;font-size:11.5px;color:var(--t3);margin-top:10px">Mais popular · Melhor preço por mês</p>
       </div>
-      <div class="plan-card feat sr d1">
-        <span class="plan-badge pb-teal">⭐ Mais Escolhido</span>
+      <div class="plan-card sr d1">
+        <span class="plan-badge pb-dim">Equilíbrio</span>
         <div class="plan-name">Semestral</div><div class="plan-struck">De R$164,90/mês</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">149</span><span class="p-cts">,90</span></div>
         <div class="p-mo">/mês</div><div class="p-info">Total R$899,40 · Fidelização 6 meses</div>
         <div class="p-sep"></div>
         <ul class="p-perks"><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li></ul>
-        <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn pb-solid" target="_blank" rel="noopener">Matricular agora →</a>
-        <p style="text-align:center;font-size:11.5px;color:var(--t3);margin-top:10px">Débito automático · Não compromete o limite</p>
+        <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn pb-ghost" target="_blank" rel="noopener">Escolher semestral →</a>
       </div>
       <div class="plan-card sr d2">
         <span class="plan-badge pb-muted">Sem fidelidade</span>
@@ -1433,17 +1473,18 @@ window.addEventListener('load', function(){
   const heroSection = document.querySelector('.hero');
 
   if(expertImg && heroSection){
-    /* parallax: foto sobe mais devagar que o scroll → efeito de profundidade */
+    /* parallax: move the IMAGE inside its overflow:hidden wrapper
+       Extra height (120%) + margin-bottom(-20%) ensures no gap is ever revealed */
     gsap.fromTo(expertImg,
       { yPercent: 0 },
       {
-        yPercent: -14,
+        yPercent: -10,   /* reduced range — less movement = less gap risk */
         ease: 'none',
         scrollTrigger:{
           trigger: heroSection,
           start: 'top top',
           end: 'bottom top',
-          scrub: 1.2
+          scrub: 1.5
         }
       }
     );

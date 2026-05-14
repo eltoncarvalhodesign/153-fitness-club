@@ -54,6 +54,10 @@ a{text-decoration:none;color:inherit}
 ul{list-style:none}
 button{cursor:pointer;border:none;background:none;font-family:inherit}
 
+/* ── anti-viúva global ── */
+h1,h2,h3,h4,h5,h6{text-wrap:balance}
+p,li,.sec-sub,.hero-sub,.dep-quote,.fi-a p{text-wrap:pretty}
+
 body::after{
   content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -943,14 +947,14 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   <div class="hero-body">
     <div class="hero-tag">
       <span class="hero-tag-dot"></span>
-      Primeira aula grátis — sem compromisso
+      Primeira aula grátis&nbsp;— sem compromisso
     </div>
 
     <h1 class="hero-h1">
       153 fitness club,<br><em>sua melhor hora do dia.</em>
     </h1>
 
-    <p class="hero-sub">Academia de alto padrão com equipamentos importados, profissionais certificados e mais de 10 modalidades para você evoluir de verdade.</p>
+    <p class="hero-sub">Academia de alto padrão com equipamentos importados, profissionais certificados e mais de 10 modalidades para você evoluir de&nbsp;verdade.</p>
 
     <div class="hero-actions">
       <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita."
@@ -1050,7 +1054,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     <div class="sec-head sr">
       <span class="sec-label">Por que a 153?</span>
       <h2 class="sec-title">O ambiente certo faz<br>toda a diferença</h2>
-      <p class="sec-sub">Na 153 você tem tudo que precisa para treinar com qualidade, constância e resultado.</p>
+      <p class="sec-sub">Na 153 você tem tudo que precisa para treinar com qualidade, constância e&nbsp;resultado.</p>
     </div>
     <div class="bento">
       <div class="bc bc-photo sr">
@@ -1062,7 +1066,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         </div>
       </div>
       <div class="bc bc-teal sr d1">
-        <div><h4>Primeira aula 100% gratuita, sem compromisso.</h4><p>Venha conhecer pessoalmente. Agende pelo WhatsApp agora.</p></div>
+        <div><h4>Primeira aula 100% gratuita, sem compromisso.</h4><p>Venha conhecer pessoalmente. Agende pelo WhatsApp&nbsp;agora.</p></div>
         <a href="https://wa.me/5583991412858" class="bc-arr" target="_blank" rel="noopener">↗</a>
       </div>
       <div class="bc bc-stat sr"><span class="bc-stat-n">800+</span><span class="bc-stat-l">Alunos ativos</span></div>

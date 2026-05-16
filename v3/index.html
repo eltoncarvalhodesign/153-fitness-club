@@ -910,79 +910,31 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .stat-item{padding:24px 18px}
 }
 
+/* ─── SPOTLIGHT GLOW — child 
 
-/* ─── SPOTLIGHT GLOW — child .glow-spot handles border,
-   no conflict with existing ::before / ::after on cards ─── */
+.plan-card.feat 
 
-/* pointer-tracked background spotlight on the card itself */
-[data-glow]{
-  --gx: 50%;          /* x as %, fallback center  */
-  --gy: 50%;          /* y as %, fallback center  */
-  position: relative;
-  overflow: visible;  /* let .glow-spot border show */
-}
-
-/* spotlight fill — simple, no background-attachment conflicts */
-[data-glow]::after{
-  /* override: we use a ::after INSIDE [data-glow] scope only
-     when no existing ::after already exists on the element    */
-  content: none !important; /* safety off — handled by .glow-spot */
-}
-
-/* inner spotlight overlay — absolutely fills the card */
-.glow-spot{
-  --gs-hue:  168;      /* teal */
-  --gs-size: 260px;
-
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-  border-radius: var(--r, 18px);
-
-  /* spotlight fill */
-  background: radial-gradient(
-    var(--gs-size) var(--gs-size)
-    at var(--lx, 50%) var(--ly, 50%),
-    hsl(var(--gs-hue) 100% 55% / .10) 0%,
-    hsl(var(--gs-hue) 80%  40% / .04) 40%,
+/* ─── SPOTLIGHT GLOW — background-image layer, zero conflitos ─ */
+.stat-item,
+.plan-card {
+  --lx: 50%;
+  --ly: 50%;
+  background-image: radial-gradient(
+    260px circle at var(--lx) var(--ly),
+    rgba(0,162,149,.13) 0%,
+    rgba(0,162,149,.04) 45%,
     transparent 70%
   );
-  transition: opacity .2s;
+  /* background-color continua definido pelas regras existentes */
 }
-
-/* glowing border ring — via box-shadow on the overlay */
-.glow-spot::before{
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px; /* border thickness */
-  background: radial-gradient(
-    var(--gs-size) var(--gs-size)
-    at var(--lx, 50%) var(--ly, 50%),
-    hsl(var(--gs-hue) 100% 65% / .85) 0%,
-    hsl(var(--gs-hue)  80% 45% / .25) 45%,
+.plan-card.feat {
+  background-image: radial-gradient(
+    320px circle at var(--lx) var(--ly),
+    rgba(0,191,176,.16) 0%,
+    rgba(0,162,149,.06) 45%,
     transparent 70%
   );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
 }
-
-/* ensure card content sits on top of the overlay */
-[data-glow] > *:not(.glow-spot){ position: relative; z-index: 1; }
-
-/* featured plan — bigger spotlight */
-.plan-card.feat .glow-spot{ --gs-size: 320px; }
-
 </style>
 </head>
 <body>
@@ -1005,7 +957,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   <a href="#modalidades">Modalidades</a><a href="#planos">Planos</a><a href="#contato">Contato</a>
   <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="mob-cta" target="_blank" rel="noopener">Agendar Aula Grátis</a>
 </div>
-
 
 <!-- HERO -->
 <section class="hero" id="inicio">
@@ -1091,31 +1042,29 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- STATS (floating card over bg-1) -->
 <div class="stats-wrap">
   <div class="stats-card sr">
     <div class="stats-inner">
-      <div class="stat-item" data-glow>
+      <div class="stat-item">
         <span class="stat-n" data-target="800" data-suffix="+">0</span>
         <span class="stat-l">Alunos ativos</span>
       </div>
-      <div class="stat-item" data-glow>
+      <div class="stat-item">
         <span class="stat-n" data-target="10" data-suffix="+">0</span>
         <span class="stat-l">Modalidades</span>
       </div>
-      <div class="stat-item" data-glow>
+      <div class="stat-item">
         <span class="stat-n" data-target="49" data-suffix="★" data-dec="1">0</span>
         <span class="stat-l">Google Reviews</span>
       </div>
-      <div class="stat-item" data-glow>
+      <div class="stat-item">
         <span class="stat-n" data-target="5" data-suffix=" anos">0</span>
         <span class="stat-l">De resultados</span>
       </div>
     </div>
   </div>
 </div>
-
 
 <!-- SOBRE BENTO -->
 <section class="sobre" id="sobre">
@@ -1156,7 +1105,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- DIFERENCIAIS -->
 <section class="diferenciais">
   <div class="container">
@@ -1171,7 +1119,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     </div>
   </div>
 </section>
-
 
 <!-- MODALIDADES CAROUSEL -->
 <section class="modalidades" id="modalidades">
@@ -1220,7 +1167,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- GALERIA -->
 <section class="galeria">
   <div class="container">
@@ -1236,7 +1182,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- DEPOIMENTOS -->
 <section class="depoimentos">
   <div class="container">
@@ -1250,14 +1195,13 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- PLANOS -->
 <section class="planos" id="planos">
   <div class="container">
     <div class="sec-head sr"><span class="sec-label">Planos e Preços</span><h2 class="sec-title">Invista no seu corpo.<br>Escolha o plano ideal.</h2><p class="sec-sub">Todos os planos incluem acesso a todas as modalidades, app do aluno e orientação dos professores.</p></div>
     <div class="urgency sr">⚡ Condição especial de matrícula — Válida esta semana</div>
     <div class="plans-grid">
-      <div class="plan-card feat sr" data-glow>
+      <div class="plan-card feat sr">
         <span class="plan-badge pb-teal">⭐ Melhor Custo-Benefício</span>
         <div class="plan-name">Anual</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">134</span><span class="p-cts">,90</span></div>
@@ -1267,7 +1211,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn pb-solid" target="_blank" rel="noopener">Quero o plano anual →</a>
         <p style="text-align:center;font-size:11.5px;color:var(--t3);margin-top:10px">Mais popular · Melhor preço por mês</p>
       </div>
-      <div class="plan-card sr d1" data-glow>
+      <div class="plan-card sr d1">
         <span class="plan-badge pb-dim">Equilíbrio</span>
         <div class="plan-name">Semestral</div><div class="plan-struck">De R$164,90/mês</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">149</span><span class="p-cts">,90</span></div>
@@ -1276,7 +1220,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         <ul class="p-perks"><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li></ul>
         <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn pb-ghost" target="_blank" rel="noopener">Escolher semestral →</a>
       </div>
-      <div class="plan-card sr d2" data-glow>
+      <div class="plan-card sr d2">
         <span class="plan-badge pb-muted">Sem fidelidade</span>
         <div class="plan-name">Mensal</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">164</span><span class="p-cts">,90</span></div>
@@ -1289,7 +1233,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     <p class="p-trust sr">🔒 Matrícula segura · Sem taxa de adesão · Suporte via WhatsApp</p>
   </div>
 </section>
-
 
 <!-- PRODUTOS -->
 <section class="produtos" id="produtos">
@@ -1313,7 +1256,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- EQUIPE -->
 <section class="equipe">
   <div class="container">
@@ -1326,7 +1268,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     </div>
   </div>
 </section>
-
 
 <!-- FAQ -->
 <section class="faq">
@@ -1343,7 +1284,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     </div>
   </div>
 </section>
-
 
 <!-- CTA FINAL -->
 <section class="cta-final">
@@ -1368,7 +1308,6 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   </div>
 </section>
 
-
 <!-- FOOTER -->
 <footer id="contato">
   <div class="footer-body">
@@ -1385,13 +1324,11 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   <div class="footer-bot"><span>© 2025 153 Fitness Club Ltda · Todos os direitos reservados</span><a href="#">Política de Privacidade</a></div>
 </footer>
 
-
 <!-- WA -->
 <a href="https://wa.me/5583991412858?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20gratuita." class="wa" target="_blank" rel="noopener" aria-label="WhatsApp">
   <span class="wa-tip">Fale com a 153 agora →</span>
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L0 24l6.335-1.509C8.02 23.447 9.975 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.903 0-3.68-.52-5.19-1.425l-.367-.218-3.812.908.942-3.73-.239-.383A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
-
 
 <script>
 (function(){
@@ -1537,6 +1474,29 @@ initCarousel({
 
 })();
 
+/* ── SPOTLIGHT: rastreia cursor em cada card ── */
+(function(){
+  function track(e){
+    const r = this.getBoundingClientRect();
+    const lx = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+    const ly = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+    this.style.setProperty('--lx', lx);
+    this.style.setProperty('--ly', ly);
+  }
+  function reset(){
+    this.style.setProperty('--lx','50%');
+    this.style.setProperty('--ly','50%');
+  }
+  function init(){
+    document.querySelectorAll('.stat-item, .plan-card').forEach(el=>{
+      el.addEventListener('pointermove', track, {passive:true});
+      el.addEventListener('pointerleave', reset, {passive:true});
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
 
 </script>
 </body>

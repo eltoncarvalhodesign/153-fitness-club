@@ -909,6 +909,116 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
   .stats-inner{grid-template-columns:1fr 1fr}
   .stat-item{padding:24px 18px}
 }
+
+/* ─── SPOTLIGHT GLOW CARD EFFECT ────────────────────────────
+   Tracks cursor position globally; each [data-glow] card gets
+   a teal radial spotlight + illuminated border that follows
+   the pointer across the entire viewport.
+─────────────────────────────────────────────────────────── */
+[data-glow]{
+  --glow-hue:      168;   /* teal: #00A295 ≈ hsl(168,100%,32%) */
+  --glow-spread:   80;    /* how much hue shifts with xp */
+  --glow-size:     240;   /* spotlight radius in px */
+  --glow-border:   1.5;   /* border thickness in px */
+  --glow-radius:   18;    /* matches --r token */
+  --glow-bdrop:    rgba(28,28,30,.88);
+
+  /* computed */
+  --glow-bs:   calc(var(--glow-border) * 1px);
+  --glow-ss:   calc(var(--glow-size) * 1px);
+  --glow-hue-v:calc(var(--glow-hue) + (var(--xp,0) * var(--glow-spread)));
+
+  /* spotlight fill */
+  background-image:
+    radial-gradient(
+      var(--glow-ss) var(--glow-ss) at
+      calc(var(--x,0) * 1px) calc(var(--y,0) * 1px),
+      hsl(var(--glow-hue-v) 100% 60% / .09),
+      transparent
+    );
+  background-color: var(--bg,var(--glow-bdrop));
+  background-size:
+    calc(100% + 2*var(--glow-bs))
+    calc(100% + 2*var(--glow-bs));
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  position:relative;
+  isolation:isolate;
+}
+
+/* illuminated border — spotlight hitting the edge */
+[data-glow]::before,
+[data-glow]::after{
+  content:'';
+  pointer-events:none;
+  position:absolute;
+  inset: calc(var(--glow-bs) * -1);
+  border: var(--glow-bs) solid transparent;
+  border-radius: calc(var(--glow-radius) * 1px);
+  background-attachment:fixed;
+  background-size:
+    calc(100% + 2*var(--glow-bs))
+    calc(100% + 2*var(--glow-bs));
+  background-repeat:no-repeat;
+  background-position:50% 50%;
+  /* border mask technique */
+  -webkit-mask:
+    linear-gradient(transparent,transparent),
+    linear-gradient(white,white);
+  -webkit-mask-clip:padding-box,border-box;
+  -webkit-mask-composite:destination-in;
+  mask:linear-gradient(transparent,transparent),linear-gradient(white,white);
+  mask-clip:padding-box,border-box;
+  mask-composite:intersect;
+  z-index:0;
+}
+/* teal border glow */
+[data-glow]::before{
+  background-image:radial-gradient(
+    calc(var(--glow-ss) * .75) calc(var(--glow-ss) * .75) at
+    calc(var(--x,0) * 1px) calc(var(--y,0) * 1px),
+    hsl(var(--glow-hue-v) 100% 55% / .9),
+    transparent 100%
+  );
+  filter:brightness(2);
+}
+/* white sparkle */
+[data-glow]::after{
+  background-image:radial-gradient(
+    calc(var(--glow-ss) * .45) calc(var(--glow-ss) * .45) at
+    calc(var(--x,0) * 1px) calc(var(--y,0) * 1px),
+    hsl(0 0% 100% / .55),
+    transparent 100%
+  );
+}
+/* ensure card content sits above pseudo-elements */
+[data-glow] > *{position:relative;z-index:1}
+
+/* ── stat-item overrides when data-glow applied ── */
+.stat-item[data-glow]{
+  background:rgba(28,28,30,.92);
+  border-color:transparent; /* border drawn by ::before */
+}
+.stat-item[data-glow]:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 48px rgba(0,0,0,.4);
+}
+
+/* ── plan-card overrides when data-glow applied ── */
+.plan-card[data-glow]{
+  background:rgba(28,28,30,.92);
+  border-color:transparent;
+}
+.plan-card.feat[data-glow]{
+  --glow-size:300;
+  background:rgba(20,20,20,.95);
+  /* keep teal glow ring on feat */
+  box-shadow:
+    0 0 0 1px var(--teal),
+    0 0 40px rgba(0,162,149,.22),
+    0 0 80px rgba(0,162,149,.08),
+    0 28px 56px rgba(0,0,0,.5);
+}
 </style>
 </head>
 <body>
@@ -1022,19 +1132,19 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
 <div class="stats-wrap">
   <div class="stats-card sr">
     <div class="stats-inner">
-      <div class="stat-item">
+      <div class="stat-item" data-glow>
         <span class="stat-n" data-target="800" data-suffix="+">0</span>
         <span class="stat-l">Alunos ativos</span>
       </div>
-      <div class="stat-item">
+      <div class="stat-item" data-glow>
         <span class="stat-n" data-target="10" data-suffix="+">0</span>
         <span class="stat-l">Modalidades</span>
       </div>
-      <div class="stat-item">
+      <div class="stat-item" data-glow>
         <span class="stat-n" data-target="49" data-suffix="★" data-dec="1">0</span>
         <span class="stat-l">Google Reviews</span>
       </div>
-      <div class="stat-item">
+      <div class="stat-item" data-glow>
         <span class="stat-n" data-target="5" data-suffix=" anos">0</span>
         <span class="stat-l">De resultados</span>
       </div>
@@ -1183,7 +1293,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
     <div class="sec-head sr"><span class="sec-label">Planos e Preços</span><h2 class="sec-title">Invista no seu corpo.<br>Escolha o plano ideal.</h2><p class="sec-sub">Todos os planos incluem acesso a todas as modalidades, app do aluno e orientação dos professores.</p></div>
     <div class="urgency sr">⚡ Condição especial de matrícula — Válida esta semana</div>
     <div class="plans-grid">
-      <div class="plan-card feat sr">
+      <div class="plan-card feat sr" data-glow>
         <span class="plan-badge pb-teal">⭐ Melhor Custo-Benefício</span>
         <div class="plan-name">Anual</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">134</span><span class="p-cts">,90</span></div>
@@ -1193,7 +1303,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         <a href="https://wa.me/5583991412858?text=Quero%20o%20plano%20anual." class="plan-btn pb-solid" target="_blank" rel="noopener">Quero o plano anual →</a>
         <p style="text-align:center;font-size:11.5px;color:var(--t3);margin-top:10px">Mais popular · Melhor preço por mês</p>
       </div>
-      <div class="plan-card sr d1">
+      <div class="plan-card sr d1" data-glow>
         <span class="plan-badge pb-dim">Equilíbrio</span>
         <div class="plan-name">Semestral</div><div class="plan-struck">De R$164,90/mês</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">149</span><span class="p-cts">,90</span></div>
@@ -1202,7 +1312,7 @@ footer{background:var(--bg);border-top:1px solid var(--div)}
         <ul class="p-perks"><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todas as modalidades</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Check-in livre</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App do aluno</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Orientação dos professores</li><li><svg class="pck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Desconto em nutrição</li></ul>
         <a href="https://wa.me/5583991412858?text=Quero%20matricular%20no%20plano%20semestral." class="plan-btn pb-ghost" target="_blank" rel="noopener">Escolher semestral →</a>
       </div>
-      <div class="plan-card sr d2">
+      <div class="plan-card sr d2" data-glow>
         <span class="plan-badge pb-muted">Sem fidelidade</span>
         <div class="plan-name">Mensal</div>
         <div class="plan-price"><span class="p-cur">R$</span><span class="p-amt">164</span><span class="p-cts">,90</span></div>
@@ -1461,6 +1571,23 @@ initCarousel({
   dotClass:'prod-dot',dotOnClass:'on'
 });
 
+})();
+
+/* ── SPOTLIGHT GLOW: global pointer tracker ── */
+(function(){
+  function onPointerMove(e){
+    const x = e.clientX.toFixed(2);
+    const y = e.clientY.toFixed(2);
+    const xp = (e.clientX / window.innerWidth).toFixed(4);
+    const yp = (e.clientY / window.innerHeight).toFixed(4);
+    document.querySelectorAll('[data-glow]').forEach(el=>{
+      el.style.setProperty('--x', x);
+      el.style.setProperty('--y', y);
+      el.style.setProperty('--xp', xp);
+      el.style.setProperty('--yp', yp);
+    });
+  }
+  document.addEventListener('pointermove', onPointerMove, {passive:true});
 })();
 
 </script>
